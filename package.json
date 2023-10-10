@@ -1,11 +1,11 @@
 {
-	"name": "sveltekit-electron",
+	"name": "idn-health-check",
 	"version": "0.0.1",
 	"private": true,
-	"description": "Minimal Sveltekit + Electron starter template.",
+	"description": "",
 	"main": "src/electron.cjs",
 	"type": "module",
-	"author": "Braden Wiggins",
+	"author": "Philip Ellis",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=dev npm run dev:all",
 		"dev:all": "concurrently -n=svelte,electron -c='#ff3e00',blue \"npm run dev:svelte\" \"npm run dev:electron\"",

@@ -1,37 +1,24 @@
-<script>
-	import { each } from 'svelte/internal';
-
-	let pages = [
-		{
-			url: '/source-account-create-error',
-			name: 'Source Account Create Error',
-			description:
-				'This report will show all source accounts for which there is a create error associated with the source',
-		},
-		{
-			url: '/identity-inactive-but-has-access',
-			name: 'Inactive Identities With Access',
-			description:
-				'This report will show all identities that are inactive but still have access in sources',
-		},
-	];
+<script lang="ts">
+	import { pages } from '$lib/sidebar/pages';
 </script>
 
-<div class="p-4">
-	<img src="/SailPoint-Developer-Community-Lockup.png" alt="sailPoint Logo" />
-	<a href="/" class="btn variant-filled-primary w-full mt-2 text-slate-50 text-lg">
-		Go back to login
-	</a>
-	<div class="text-2xl text-slate-500 divide-dashed divide-y-2 mt-4 mb-2">
-		Select a report to run
-	</div>
+<div class="p-2">
+	<div class="text-2xl text-center">Select a report to run</div>
 
 	<div class="flex flex-row flex-wrap">
 		{#each pages as page (page.url)}
-			<a class="card card-hover overflow-hidden m-4 w-modal-slim" href={page.url}>
+			<a
+				class="card card-hover overflow-hidden m-4 w-modal-slim"
+				data-sveltekit-preload-data="hover"
+				href={page.url}
+			>
 				<header>
-					<div class="w-full aspect-[21/9] text-container" alt="Post">
-						<div class="text">{page.name}</div>
+					<div class="w-full aspect-[21/9] relative bg-[#526bf8] overflow-hidden">
+						<div
+							class="text font-bold text-white uppercase absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[24px]"
+						>
+							{page.name}
+						</div>
 					</div>
 				</header>
 				<div class="p-4 space-y-4">
@@ -47,24 +34,3 @@
 		{/each}
 	</div>
 </div>
-
-<style>
-	/* Define a container to hold the text */
-	.text-container {
-		position: relative;
-		background-color: #526bf8;
-		overflow: hidden;
-	}
-
-	/* Style the text */
-	.text {
-		font-size: 24px;
-		font-weight: bold;
-		color: #fff;
-		text-transform: uppercase;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
-</style>

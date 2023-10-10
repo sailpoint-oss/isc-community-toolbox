@@ -18,7 +18,7 @@ let mainWindow;
 function createWindow() {
 	let windowState = windowStateManager({
 		defaultWidth: 800,
-		defaultHeight: 600,
+		defaultHeight: 800,
 	});
 
 	const mainWindow = new BrowserWindow({
@@ -29,8 +29,8 @@ function createWindow() {
 			x: 17,
 			y: 32,
 		},
-		minHeight: 450,
-		minWidth: 500,
+		minHeight: 800,
+		minWidth: 800,
 		webPreferences: {
 			enableRemoteModule: true,
 			contextIsolation: true,

@@ -8,7 +8,7 @@
 	onMount(() => (ready = true));
 </script>
 
-<div class="dragbar" />
+<!-- <div class="dragbar" /> -->
 <Modal />
 {#if ready}
 	<slot />

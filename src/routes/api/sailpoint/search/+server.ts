@@ -1,7 +1,7 @@
-import { error, json } from '@sveltejs/kit';
 import { createConfiguration } from '$lib/sailpoint/sdk';
-import { getToken, type IdnSession } from '$lib/utils/oauth';
-import { SearchApi, type Search, Paginator } from 'sailpoint-api-client';
+import { getToken } from '$lib/utils/oauth';
+import { json } from '@sveltejs/kit';
+import { Paginator, SearchApi, type Search } from 'sailpoint-api-client';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request, cookies }) {

@@ -1,4 +1,4 @@
-export const pages = [
+export const reports = [
 	{
 		url: '/home/source-account-create-error',
 		name: 'Source Account Create Error',
@@ -16,5 +16,10 @@ export const pages = [
 		name: 'Missing Cloud Life Cycle State',
 		description:
 			'This report will show all identities that are missing a cloud life cycle state',
+	},
+	{
+		url: '/home/source-delete-threshold',
+		name: 'Sources Delete Threshold',
+		description: 'This report will show all sources delete threshold',
 	},
 ];

@@ -1,4 +1,4 @@
-import { pages } from './pages';
+import { reports } from './reports';
 
 export const navigation = [
 	{
@@ -13,6 +13,6 @@ export const navigation = [
 	},
 	{
 		name: 'Reports',
-		content: [...pages],
+		content: [...reports],
 	},
 ];

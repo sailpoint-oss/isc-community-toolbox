@@ -16,12 +16,6 @@ jobs:
             - uses: actions/setup-node@master
               with:
                   node-version: 18
-            - name: install dependencies
-              run: npm install
-
-            - name: publish
-              run: |
-                  npm run build
 
             # Check input version is greater than the current tag
             - name: Check valid version
@@ -46,6 +40,13 @@ jobs:
               id: updateVersion
               run: |
                   jq '.version = "${{ github.event.inputs.version }}"' package.json > package.json.tmp && mv package.json.tmp package.json
+
+            - name: Install deps
+              run: npm install
+
+            - name: publish
+              run: |
+                  npm run build
 
             - name: Commit changes and create new version tag
               if: steps.updateVersion.outcome == 'success'

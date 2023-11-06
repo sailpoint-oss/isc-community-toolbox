@@ -18,55 +18,23 @@
 			let reportResult = [];
 
 			for (let row of <any>results) {
-				let accounts: string[] = [];
-				for (let account of row.accounts) {
-					if (account.disabled == false) {
-						accounts.push(account.source.name);
-					}
-				}
 				reportResult.push({
-					name: row.displayName,
-					source: accounts.join(', '),
-					created: row.created,
-					accessCount: row.accessCount,
-					entitlementCount: row.entitlementCount,
-					roleCount: row.roleCount,
+					name: row.name,
+					modified: row.modified,
+					ownerName: row.owner.name,
+					ownerId: row.owner.id,
 				});
 			}
 
-			let res = alasql(
-				'SELECT name, source, created, accessCount, entitlementCount, roleCount FROM ?',
-				[reportResult],
-			);
+			let res = alasql('SELECT name, modified, ownerName, ownerId FROM ?', [reportResult]);
 
 			tableSimple = {
 				// A list of heading labels.
-				head: [
-					'Name',
-					'Sources',
-					'Created',
-					'Access Count',
-					'Entitlement Count',
-					'Role Count',
-				],
+				head: ['Name', 'Modified', 'Owner Name', 'Owner Id'],
 				// The data visibly shown in your table body UI.
-				body: tableMapperValues(res, [
-					'name',
-					'source',
-					'created',
-					'accessCount',
-					'entitlementCount',
-					'roleCount',
-				]),
+				body: tableMapperValues(res, ['name', 'modified', 'ownerName', 'ownerId']),
 				// Optional: The data returned when interactive is enabled and a row is clicked.
-				meta: tableMapperValues(res, [
-					'name',
-					'source',
-					'created',
-					'accessCount',
-					'entitlementCount',
-					'roleCount',
-				]),
+				meta: tableMapperValues(res, ['name', 'modified', 'ownerName', 'ownerId']),
 			};
 		}
 	});
@@ -78,9 +46,7 @@
 
 <div class="p-4">
 	<div class="flex justify-center mt-4 flex-col align-middle">
-		<div class="text-2xl py-2 text-center">
-			Listing of identities that are missing the cloud life cycle state attribute
-		</div>
+		<div class="text-2xl py-2 text-center">Listing of sources and their delete threshold</div>
 		{#if tableSimple}
 			<Table
 				class="w-full"

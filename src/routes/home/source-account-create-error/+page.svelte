@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import alasql from 'alasql';
 	import { getModalStore } from '@skeletonlabs/skeleton';
+	import Progress from '$lib/Components/Progress.svelte';
 
 	const modalStore = getModalStore();
 	//export let data;
@@ -79,34 +80,18 @@
 	}
 </script>
 
-<main>
-	<div class="p-4">
-		<div class="flex justify-center mt-4 flex-col align-middle">
-			<div class="text-2xl text-center py-2">Listing of Source Account Create Errors</div>
-			{#if tableSimple}
-				<Table
-					class="w-full"
-					source={tableSimple}
-					interactive={true}
-					on:selected={onTableclick}
-				/>
-			{:else}
-				<div class="progress-bar">
-					<ProgressRadial
-						stroke={100}
-						meter="stroke-primary-500"
-						track="stroke-primary-500/30"
-						class="progress-bar"
-					/>
-				</div>
-			{/if}
-		</div>
+<div class="p-4">
+	<div class="flex justify-center mt-4 flex-col align-middle">
+		<div class="text-2xl text-center py-2">Listing of Source Account Create Errors</div>
+		{#if tableSimple}
+			<Table
+				class="w-full"
+				source={tableSimple}
+				interactive={true}
+				on:selected={onTableclick}
+			/>
+		{:else}
+			<Progress />
+		{/if}
 	</div>
-</main>
-
-<style>
-	.progress-bar {
-		padding-top: calc(50vh - 4.5rem - 200px);
-		padding-left: calc(50% - 4.5rem);
-	}
-</style>
+</div>

@@ -1,6 +1,4 @@
 {
-	"appId": "com.example.app",
-	"productName": "Sveltekit Electron",
 	"directories": {
 		"output": "dist"
 	},
@@ -11,5 +9,9 @@
 			"from": "build",
 			"to": ""
 		}
-	]
+	],
+	"linux": {
+		"category": "Utility",
+		"target": "deb"
+	}
 }

@@ -1,14 +1,17 @@
 {
-	"name": "idn-health-check",
+	"name": "idn-admin-console",
 	"version": "0.0.1",
 	"private": true,
 	"description": "",
 	"main": "src/electron.cjs",
 	"type": "module",
-	"author": "Philip Ellis",
+	"author": {
+		"name": "Luke Hagar",
+		"email": "luke.hagar@sailpoint.com"
+	},
 	"scripts": {
 		"dev": "cross-env NODE_ENV=dev npm run dev:all",
-		"dev:all": "concurrently -n=svelte,electron -c='#ff3e00',blue \"npm run dev:svelte\" \"npm run dev:electron\"",
+		"dev:all": "concurrently -n=svelte,electron -c='#ff3e00',blue \"npm run dev:svelte\" \"wait-on http://localhost:3000/ && npm run dev:electron\"",
 		"dev:svelte": "vite dev",
 		"dev:electron": "electron src/electron.cjs",
 		"build": "cross-env NODE_ENV=production npm run build:svelte && npm run build:electron",
@@ -26,7 +29,8 @@
 		"electron-context-menu": "^3.6.1",
 		"electron-reloader": "^1.2.3",
 		"electron-serve": "^1.1.0",
-		"electron-window-state": "^5.0.3"
+		"electron-window-state": "^5.0.3",
+		"wait-on": "^7.1.0"
 	},
 	"devDependencies": {
 		"@skeletonlabs/skeleton": "^2.1.0",
@@ -37,8 +41,8 @@
 		"@types/node": "^20.6.2",
 		"@typescript-eslint/eslint-plugin": "^5.56.0",
 		"@typescript-eslint/parser": "^5.56.0",
-		"autoprefixer": "^10.4.14",
 		"alasql": "^4.1.9",
+		"autoprefixer": "^10.4.14",
 		"axios": "^1.5.0",
 		"concurrently": "^7.6.0",
 		"cross-env": "^7.0.3",

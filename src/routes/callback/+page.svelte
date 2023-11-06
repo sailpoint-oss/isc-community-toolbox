@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import AnimatedCounter from '$lib/AnimatedCounter.svelte';
+	import AnimatedCounter from '$lib/Components/AnimatedCounter.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;

@@ -20,6 +20,16 @@ export const reports = [
 	{
 		url: '/home/source-delete-threshold',
 		name: 'Sources Delete Threshold',
-		description: 'This report will show all sources delete threshold',
+		description: 'This report will show all sources and their delete threshold',
+	},
+	{
+		url: '/home/source-owner-configured',
+		name: 'Sources Owner Configured',
+		description: 'This report will show all sources and their configured owners',
+	},
+	{
+		url: '/home/source-aggregations',
+		name: 'Source Aggregations',
+		description: 'This report will show all sources and their most recent aggregation events',
 	},
 ];

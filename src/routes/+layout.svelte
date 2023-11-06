@@ -1,25 +1,23 @@
 <script lang="ts">
-	import '../app.postcss';
+	import { Modal, initializeStores, type ModalComponent } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
-	import { Modal, initializeStores } from '@skeletonlabs/skeleton';
+	import '../app.postcss';
+	import CodeBlockModal from '$lib/Components/CodeBlockModal.svelte';
 
 	initializeStores();
 	let ready: boolean = false;
 	onMount(() => (ready = true));
+
+	const modalRegistry: Record<string, ModalComponent> = {
+		// Set a unique modal ID, then pass the component reference
+		codeBlockModal: { ref: CodeBlockModal },
+
+		// ...
+	};
 </script>
 
-<!-- <div class="dragbar" /> -->
-<Modal />
+<Modal components={modalRegistry} />
+
 {#if ready}
 	<slot />
 {/if}
-
-<style>
-	.dragbar {
-		-webkit-app-region: drag;
-		position: absolute;
-		z-index: 100;
-		height: 40px;
-		width: 100%;
-	}
-</style>

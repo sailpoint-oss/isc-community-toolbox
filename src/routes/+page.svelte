@@ -46,11 +46,21 @@
 		<form method="POST" use:enhance class="flex flex-col gap-4">
 			<label class="">
 				Tenant
-				<input name="tenant" placeholder={``} bind:value={$tenant} class="input p-2" />
+				<input
+					name="tenant"
+					placeholder={`tenant`}
+					bind:value={$tenant}
+					class="input p-2"
+				/>
 			</label>
 			<label class="">
 				Domain
-				<input name="domain" placeholder={``} bind:value={$domain} class="input p-2" />
+				<input
+					name="domain"
+					placeholder={`identitynow`}
+					bind:value={$domain}
+					class="input p-2"
+				/>
 			</label>
 			<label class="">
 				API Base URL

@@ -9,6 +9,11 @@ export const navigation = [
 				name: 'Home',
 				description: 'Home page for the application.',
 			},
+			{
+				url: '/home/sources',
+				name: 'Sources',
+				description: 'a list of Sources in IdentityNow.',
+			},
 		],
 	},
 	{

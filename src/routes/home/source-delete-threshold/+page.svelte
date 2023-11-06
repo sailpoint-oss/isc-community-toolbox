@@ -1,10 +1,6 @@
 <script lang="ts">
-	import {
-		ProgressRadial,
-		Table,
-		tableMapperValues,
-		type TableSource,
-	} from '@skeletonlabs/skeleton';
+	import Progress from '$lib/Components/Progress.svelte';
+	import { Table, tableMapperValues, type TableSource } from '@skeletonlabs/skeleton';
 	import alasql from 'alasql';
 	import { onMount } from 'svelte';
 
@@ -63,22 +59,8 @@
 					on:selected={onTableclick}
 				/>
 			{:else}
-				<div class="progress-bar">
-					<ProgressRadial
-						stroke={100}
-						meter="stroke-primary-500"
-						track="stroke-primary-500/30"
-						class="progress-bar"
-					/>
-				</div>
+				<Progress />
 			{/if}
 		</div>
 	</div>
 </main>
-
-<style>
-	.progress-bar {
-		padding-top: calc(50vh - 4.5rem - 200px);
-		padding-left: calc(50% - 4.5rem);
-	}
-</style>

@@ -1,3 +1,4 @@
+import { HandleError } from '$lib/Errors.js';
 import { createConfiguration } from '$lib/sailpoint/sdk';
 import { getToken } from '$lib/utils/oauth';
 import { json } from '@sveltejs/kit';
@@ -16,8 +17,7 @@ export async function POST({ request, cookies }) {
 		const val = (await Paginator.paginateSearchApi(api, search, 100, 20000)).data;
 		//console.log(val)
 		return json(val);
-	} catch (error) {
-		console.log(error);
-		return undefined;
+	} catch (err) {
+		HandleError('issue arose during SDK search query', err);
 	}
 }

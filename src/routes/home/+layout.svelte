@@ -22,7 +22,7 @@
 	<!-- <svelte:fragment slot="sidebarRight">Sidebar Right</svelte:fragment> -->
 	<!-- <svelte:fragment slot="pageHeader">Page Header</svelte:fragment> -->
 	<!-- Router Slot -->
-	<div class=" h-full">
+	<div class="h-full">
 		<slot />
 	</div>
 	<!-- ---- / ---- -->

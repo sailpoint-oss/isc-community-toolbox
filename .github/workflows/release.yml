@@ -29,7 +29,6 @@ jobs:
                   draft: true
                   prerelease: true
                   tag_name: v${{ steps.get-version.outputs.version  }}
-                  release_name: v${{ steps.get-version.outputs.version  }}
 
             - name: Install deps
               run: npm install

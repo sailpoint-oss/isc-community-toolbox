@@ -1,15 +1,11 @@
-name: Release
-
-run-name: Release v${{ github.event.inputs.version }}
+name: Build and Update Release
 
 on:
-    workflow_dispatch:
-        inputs:
-            version:
-                description: The version to bump to
-
+    push:
+        branches:
+            - main
 jobs:
-    publish_on_mac:
+    Build-and-Release:
         runs-on: macos-latest
         steps:
             - name: Checkout
@@ -21,29 +17,17 @@ jobs:
               with:
                   node-version: 18
 
-            # Check input version is greater than the current tag
-            - name: Check valid version
-              id: checkVersion
-              run: |
-                  function ver { printf "%03d%03d%03d%03d" $(echo "$1" | tr '.' ' '); }
+            - name: get-npm-version
+              id: package-version
+              uses: martinbeentjes/npm-get-version-action@v1.3.1
 
-                  LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
-                  LATEST_TAG="${LATEST_TAG:1}"
-                  echo $LATEST_TAG
-                  if [ $(ver $LATEST_TAG) -lt $(ver ${{ github.event.inputs.version}}) ]
-                  then
-                      echo "Input version ${{ github.event.inputs.version }} valid"
-                  else
-                      echo "Current tagged version $LATEST_TAG is greater than input version ${{ github.event.inputs.version }}"
-                      exit 1
-                  fi
-
-            ## Update configuration files to new version
-            - name: Update config files with new version
-              if: steps.checkVersion.outcome == 'success'
-              id: updateVersion
-              run: |
-                  jq '.version = "${{ github.event.inputs.version }}"' package.json > package.json.tmp && mv package.json.tmp package.json
+            - name: Create Draft Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  draft: true
+                  prerelease: true
+                  tag_name: v${{ steps.package-version.outputs.current-version  }}
+                  release_name: v${{ steps.package-version.outputs.current-version  }}
 
             - name: Install deps
               run: npm install
@@ -53,26 +37,3 @@ jobs:
                   npm run build
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            # - name: Commit changes and create new version tag
-            #   if: steps.updateVersion.outcome == 'success'
-            #   uses: stefanzweifel/git-auto-commit-action@v4
-            #   with:
-            #       commit_message: Bump version to v${{ github.event.inputs.version }}
-            #       tagging_message: v${{ github.event.inputs.version }}
-            #       commit_user_name: developer-relations-sp
-            #       commit_user_email: devrel-service@sailpoint.com
-
-            # - name: Create Release
-            #   id: createRelease
-            #   uses: actions/create-release@v1
-            #   env:
-            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            #   with:
-            #       tag_name: v${{ github.event.inputs.version }}
-            #       release_name: v${{ github.event.inputs.version }}
-            #       draft: false
-            #       prerelease: false
-
-            # - name: Upload Release Asset
-            #   run: gh release upload v${{ github.event.inputs.version }} ./dist/**/*

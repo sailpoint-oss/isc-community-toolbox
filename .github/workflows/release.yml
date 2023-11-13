@@ -51,26 +51,28 @@ jobs:
             - name: publish
               run: |
                   npm run build
-
-            - name: Commit changes and create new version tag
-              if: steps.updateVersion.outcome == 'success'
-              uses: stefanzweifel/git-auto-commit-action@v4
-              with:
-                  commit_message: Bump version to v${{ github.event.inputs.version }}
-                  tagging_message: v${{ github.event.inputs.version }}
-                  commit_user_name: developer-relations-sp
-                  commit_user_email: devrel-service@sailpoint.com
-
-            - name: Create Release
-              id: createRelease
-              uses: actions/create-release@v1
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  tag_name: v${{ github.event.inputs.version }}
-                  release_name: v${{ github.event.inputs.version }}
-                  draft: false
-                  prerelease: false
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Upload Release Asset
-              run: gh release upload v${{ github.event.inputs.version }} ./dist/**/*
+            # - name: Commit changes and create new version tag
+            #   if: steps.updateVersion.outcome == 'success'
+            #   uses: stefanzweifel/git-auto-commit-action@v4
+            #   with:
+            #       commit_message: Bump version to v${{ github.event.inputs.version }}
+            #       tagging_message: v${{ github.event.inputs.version }}
+            #       commit_user_name: developer-relations-sp
+            #       commit_user_email: devrel-service@sailpoint.com
+
+            # - name: Create Release
+            #   id: createRelease
+            #   uses: actions/create-release@v1
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       tag_name: v${{ github.event.inputs.version }}
+            #       release_name: v${{ github.event.inputs.version }}
+            #       draft: false
+            #       prerelease: false
+
+            # - name: Upload Release Asset
+            #   run: gh release upload v${{ github.event.inputs.version }} ./dist/**/*

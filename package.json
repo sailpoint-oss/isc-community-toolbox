@@ -24,6 +24,9 @@
 		"linux": {
 			"category": "Utility",
 			"target": "deb"
+		},
+		"windows": {
+			"target": "portable"
 		}
 	},
 	"scripts": {

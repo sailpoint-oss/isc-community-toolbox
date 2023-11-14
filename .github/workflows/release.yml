@@ -5,8 +5,8 @@ on:
         branches:
             - main
 jobs:
-    Build-and-Release:
-        runs-on: macos-latest
+    Build-and-Update-Release:
+        runs-on: linux-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v3

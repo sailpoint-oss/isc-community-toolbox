@@ -6,7 +6,7 @@ on:
             - main
 jobs:
     Build-and-Update-Release:
-        runs-on: linux-latest
+        runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v3

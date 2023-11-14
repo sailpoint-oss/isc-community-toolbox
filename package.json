@@ -60,7 +60,7 @@
 		"@typescript-eslint/parser": "^5.62.0",
 		"alasql": "^4.2.2",
 		"autoprefixer": "^10.4.16",
-		"axios": "^1.6.1",
+		"axios": "^1.6.0",
 		"concurrently": "^7.6.0",
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.3.1",

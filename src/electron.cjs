@@ -1,8 +1,9 @@
 const windowStateManager = require('electron-window-state');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const contextMenu = require('electron-context-menu');
-const serve = require('electron-serve');
+// const serve = require('electron-serve');
 const path = require('path');
+const express = require('express');
 
 try {
 	require('electron-reloader')(module);
@@ -10,10 +11,27 @@ try {
 	console.error(e);
 }
 
-const serveURL = serve({ directory: '.' });
+// const serveURL = serve({ directory: '.' });
 const port = process.env.PORT || 3000;
 const dev = !app.isPackaged;
 let mainWindow;
+
+async function startServer() {
+	const handlerPkg = await import('../build/handler.js');
+	const { handler } = handlerPkg;
+	const server = express();
+
+	// add a route that lives separately from the SvelteKit app
+	server.get('/healthcheck', (req, res) => {
+		res.end('ok');
+	});
+
+	server.use(handler);
+
+	server.listen(port, () => {
+		console.log(`Server listening on port: ${port}`);
+	});
+}
 
 function createWindow() {
 	let windowState = windowStateManager({
@@ -23,7 +41,7 @@ function createWindow() {
 
 	const mainWindow = new BrowserWindow({
 		backgroundColor: 'whitesmoke',
-		titleBarStyle: 'visible',
+		titleBarStyle: 'default',
 		autoHideMenuBar: false,
 		trafficLightPosition: {
 			x: 17,
@@ -32,7 +50,6 @@ function createWindow() {
 		minHeight: 800,
 		minWidth: 800,
 		webPreferences: {
-			enableRemoteModule: true,
 			contextIsolation: true,
 			nodeIntegration: true,
 			spellcheck: false,
@@ -70,11 +87,11 @@ contextMenu({
 	],
 });
 
-function loadVite(port) {
-	mainWindow.loadURL(`http://localhost:${port}`).catch((e) => {
+function loadServer(port) {
+	mainWindow?.loadURL(`http://localhost:${port}`).catch((e) => {
 		console.log('Error loading URL, retrying', e);
 		setTimeout(() => {
-			loadVite(port);
+			loadServer(port);
 		}, 200);
 	});
 }
@@ -85,10 +102,10 @@ function createMainWindow() {
 		mainWindow = null;
 	});
 
-	if (dev) loadVite(port);
-	else serveURL(mainWindow);
+	loadServer(port);
 }
 
+startServer();
 app.once('ready', createMainWindow);
 app.on('activate', () => {
 	if (!mainWindow) {
@@ -100,5 +117,5 @@ app.on('window-all-closed', () => {
 });
 
 ipcMain.on('to-main', (event, count) => {
-	return mainWindow.webContents.send('from-main', `next counts is ${count + 1}`);
+	return mainWindow?.webContents.send('from-main', `next counts is ${count + 1}`);
 });

@@ -15,4 +15,5 @@ pnpm-lock.yaml
 
 .DS_Store
 
-out/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*

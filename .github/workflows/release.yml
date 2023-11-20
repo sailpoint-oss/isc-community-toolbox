@@ -1,40 +1,40 @@
 name: Build and Update Release
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 jobs:
-    Build-and-Update-Release:
-        runs-on: macos-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
-              with:
-                  ref: ${{ github.ref }}
-                  fetch-depth: 0
-            - uses: actions/setup-node@master
-              with:
-                  node-version: 18
+  Build-and-Update-Release:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-node@master
+        with:
+          node-version: 18
 
-            - name: Get Version
-              id: get-version
-              uses: beaconbrigade/package-json-version@v0.3
-              with:
-                  path: .
+      - name: Get Version
+        id: get-version
+        uses: beaconbrigade/package-json-version@v0.3
+        with:
+          path: .
 
-            - name: Create Draft Release
-              uses: softprops/action-gh-release@v1
-              with:
-                  draft: true
-                  prerelease: true
-                  tag_name: v${{ steps.get-version.outputs.version  }}
+      - name: Create Draft Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          prerelease: true
+          tag_name: v${{ steps.get-version.outputs.version  }}
 
-            - name: Install deps
-              run: npm install
+      - name: Install deps
+        run: npm install --workspaces
 
-            - name: publish
-              run: |
-                  npm run build
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: publish
+        run: |
+          npm run publish
+        # env:
+        #   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

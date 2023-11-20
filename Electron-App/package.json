@@ -1,0 +1,39 @@
+{
+  "name": "idn-admin-console-electron",
+  "productName": "IdentityNow Admin Console",
+  "version": "1.0.0",
+  "description": "A troubleshooting and administration app for IdentityNow",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "echo \"Skipping Electron-App\"",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "build": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [],
+  "author": {
+    "name": "Luke Hagar",
+    "email": "luke.hagar@sailpoint.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@electron-toolkit/utils": "^2.0.1",
+    "electron-log": "^5.0.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.0.0",
+    "@electron-forge/maker-deb": "^7.0.0",
+    "@electron-forge/maker-rpm": "^7.0.0",
+    "@electron-forge/maker-squirrel": "^7.0.0",
+    "@electron-forge/maker-zip": "^7.0.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.0.0",
+    "@electron-forge/publisher-github": "^7.1.0",
+    "electron": "27.1.0",
+    "mime-types": "^2.1.35"
+  }
+}

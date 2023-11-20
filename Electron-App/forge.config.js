@@ -28,4 +28,16 @@ module.exports = {
       config: {},
     },
   ],
+  publishers: [
+    {
+      name: "@electron-forge/publisher-github",
+      config: {
+        repository: {
+          owner: "sailpoint-oss",
+          name: "idn-admin-console",
+        },
+        prerelease: true,
+      },
+    },
+  ],
 };

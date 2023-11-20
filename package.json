@@ -1,0 +1,19 @@
+{
+  "name": "idn-admin-console",
+  "description": "A troubleshooting and administration app for IdentityNow",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "Luke Hagar",
+    "email": "luke.hagar@sailpoint.com"
+  },
+  "scripts": {
+    "dev": "npm run dev --workspaces",
+    "publish": "npm run publish --workspaces",
+    "build": "npm run build --workspaces"
+  },
+  "workspaces": [
+    "SvelteKit-App",
+    "Electron-App"
+  ]
+}

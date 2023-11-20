@@ -1,5 +1,5 @@
 {
-	"name": "idn-admin-console",
+	"name": "idn-admin-console-svelte",
 	"description": "A troubleshooting and administration app for IdentityNow",
 	"version": "0.0.1",
 	"private": true,
@@ -10,6 +10,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "cross-env ORIGIN=http://localhost:3000 vite build",
+		"publish": "npm run build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",

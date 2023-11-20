@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const { is } = require("@electron-toolkit/utils");
+const { updateElectronApp } = require("update-electron-app");
 const handlerPkg = import(
   is.dev
     ? "../../Sveltekit-Build/src/handler.js"
@@ -16,7 +17,13 @@ const log = require("electron-log/main");
 log.info(
   "==================================Log Start=================================="
 );
-
+try {
+  log.info("Trying to update...");
+  updateElectronApp();
+} catch (e) {
+  log.info("Error updating");
+  log.info(e);
+}
 const port = 3000;
 const origin = `http://localhost:${port}`;
 log.info(`Starting server on ${origin}...`);

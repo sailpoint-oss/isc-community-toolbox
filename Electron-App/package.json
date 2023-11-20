@@ -1,13 +1,15 @@
 {
-  "name": "idn-admin-console",
+  "name": "idn-admin-console-electron",
   "productName": "IdentityNow Admin Console",
   "version": "1.0.0",
   "description": "A troubleshooting and administration app for IdentityNow",
   "main": "src/index.js",
   "scripts": {
+    "dev": "echo \"Skipping Electron-App\"",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
+    "build": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
@@ -30,6 +32,8 @@
     "@electron-forge/maker-squirrel": "^7.0.0",
     "@electron-forge/maker-zip": "^7.0.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.0.0",
-    "electron": "27.1.0"
+    "@electron-forge/publisher-github": "^7.1.0",
+    "electron": "27.1.0",
+    "mime-types": "^2.1.35"
   }
 }

@@ -35,6 +35,6 @@ jobs:
 
       - name: publish
         run: |
-          npm run publish --workspaces
+          npm run publish
         # env:
         #   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

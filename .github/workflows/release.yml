@@ -30,11 +30,18 @@ jobs:
           prerelease: true
           tag_name: v${{ steps.get-version.outputs.version  }}
 
-      - name: Install deps
-        run: npm install --workspaces
-
-      - name: publish
+      - name: Install Dependancies
         run: |
+          cd ./SvelteKit-App
+          npm install
+          
+      - name: Built SvelteKit
+        run: |
+          cd ./SvelteKit-App
+          npm run build
+
+      - name: Publish
+        run: |
+          cd ./Electron-App
           npm run publish
-        # env:
-        #   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

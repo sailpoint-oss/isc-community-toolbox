@@ -4,6 +4,17 @@ on:
   push:
     branches:
       - main
+
+# https://docs.github.com/en/actions/learn-github-actions/expressions
+# https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+concurrency:
+  # github.workflow: name of the workflow
+  # github.event.pull_request.number || github.ref: pull request number or branch name if not a pull request
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+
+  # Cancel in-progress runs when a new workflow with the same group name is triggered
+  cancel-in-progress: true
+  
 jobs:
   Build-and-Update-Release:
     runs-on: macos-latest
@@ -17,18 +28,18 @@ jobs:
         with:
           node-version: 18
 
-      - name: Get Version
-        id: get-version
-        uses: beaconbrigade/package-json-version@v0.3
-        with:
-          path: .
+      # - name: Get Version
+      #   id: get-version
+      #   uses: beaconbrigade/package-json-version@v0.3
+      #   with:
+      #     path: .
 
-      - name: Create Draft Release
-        uses: softprops/action-gh-release@v1
-        with:
-          draft: true
-          prerelease: true
-          tag_name: v${{ steps.get-version.outputs.version  }}
+      # - name: Create Draft Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     draft: true
+      #     prerelease: true
+      #     tag_name: v${{ steps.get-version.outputs.version  }}
 
 
       - name: Cache node modules

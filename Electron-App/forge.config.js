@@ -12,6 +12,9 @@ module.exports = {
       name: "@electron-forge/maker-zip",
     },
     {
+      name: '@electron-forge/maker-dmg',
+    },
+    {
       name: "@electron-forge/maker-deb",
     },
     {
@@ -33,6 +36,8 @@ module.exports = {
           name: "idn-admin-console",
         },
         prerelease: true,
+        draft: true,
+        force: true
       },
     },
   ],

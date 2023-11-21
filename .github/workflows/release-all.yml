@@ -42,7 +42,7 @@ jobs:
           
       - name: Install Dependencies for SvelteKit-App
         run: |
-          cd ./SvelteKit-App
+          cd ./Sveltekit-App
           npm install
           
       - name: Install Dependencies for Electron-App
@@ -52,7 +52,7 @@ jobs:
       
       - name: Build SvelteKit
         run: |
-          cd ./SvelteKit-App
+          cd ./Sveltekit-App
           npm run build
           
       - name: Build Electron

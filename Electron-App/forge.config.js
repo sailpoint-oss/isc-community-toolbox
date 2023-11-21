@@ -2,7 +2,7 @@ module.exports = {
   packagerConfig: {
     asar: true,
     extraResource: ["../Sveltekit-Build"],
-    executableName: "IdentityNow-Admin-Console ",
+    executableName: "idn-admin-console",
   },
   rebuildConfig: {},
   makers: [

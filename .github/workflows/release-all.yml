@@ -25,20 +25,6 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 18     
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: |
-            ~/.npm
-            ~/AppData/Local/npm-cache # Windows cache path
-          key: ${{ matrix.os }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ matrix.os }}-${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ matrix.os }}-${{ runner.os }}-build-
-            ${{ matrix.os }}-${{ runner.os }}-
           
       - name: Install Dependencies for SvelteKit-App
         run: |

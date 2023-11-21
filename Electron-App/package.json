@@ -1,6 +1,6 @@
 {
   "name": "idn-admin-console-electron",
-  "productName": "IdentityNow Admin Console",
+  "productName": "IdentityNow-Admin-Console",
   "version": "0.0.1",
   "description": "A troubleshooting and administration app for IdentityNow",
   "main": "src/index.js",

@@ -30,17 +30,22 @@ jobs:
           prerelease: true
           tag_name: v${{ steps.get-version.outputs.version  }}
 
-      - name: Install Dependancies
+      - name: Install Dependencies
         run: |
           cd ./SvelteKit-App
           npm install
           
-      - name: Built SvelteKit
+      - name: Build SvelteKit
         run: |
           cd ./SvelteKit-App
           npm run build
 
-      - name: Publish
+      - name: Install Dependencies
+        run: |
+          cd ./Electron-App
+          npm install
+          
+      - name: Build Electron
         run: |
           cd ./Electron-App
           npm run publish

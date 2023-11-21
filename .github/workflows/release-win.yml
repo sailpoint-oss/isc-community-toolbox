@@ -1,4 +1,4 @@
-name: Build Mac Packages and Update Release
+name: Build Windows Packages and Update Release
 
 on:
   push:

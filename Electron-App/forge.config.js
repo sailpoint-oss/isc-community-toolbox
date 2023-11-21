@@ -36,6 +36,8 @@ module.exports = {
           name: "idn-admin-console",
         },
         prerelease: true,
+        draft: true,
+        force: true
       },
     },
   ],

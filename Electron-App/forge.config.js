@@ -2,7 +2,6 @@ module.exports = {
   packagerConfig: {
     asar: true,
     extraResource: ["../Sveltekit-Build"],
-    executableName: "IdentityNow Admin Console",
   },
   rebuildConfig: {},
   makers: [
@@ -15,12 +14,12 @@ module.exports = {
     {
       name: '@electron-forge/maker-dmg',
     },
-    {
-      name: '@electron-forge/maker-deb',
-    },
-    {
-      name: "@electron-forge/maker-rpm",
-    },
+    // {
+    //   name: '@electron-forge/maker-deb',
+    // },
+    // {
+    //   name: "@electron-forge/maker-rpm",
+    // },
   ],
   plugins: [
     {

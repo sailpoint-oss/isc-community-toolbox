@@ -64,6 +64,6 @@ jobs:
       - name: Build Electron
         run: |
           cd ./Electron-App
-          npm run publish
+          npm run publish --verbose
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -25,6 +25,12 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 18
+          
+      - name: Setup Ubuntu
+        run: | 
+           sudo apt update
+           sudo apt install fakeroot dpkg
+        if: matrix.os == 'ubuntu-latest'      
 
       - name: Cache node modules
         uses: actions/cache@v2

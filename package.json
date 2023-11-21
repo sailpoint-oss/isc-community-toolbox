@@ -7,13 +7,4 @@
     "name": "Luke Hagar",
     "email": "luke.hagar@sailpoint.com"
   },
-  "scripts": {
-    "dev": "npm run dev --workspaces",
-    "publish": "npm run publish --workspaces",
-    "build": "npm run build --workspaces"
-  },
-  "workspaces": [
-    "SvelteKit-App",
-    "Electron-App"
-  ]
 }

@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require("electron");
+const windowStateManager = require('electron-window-state');
+const { app, BrowserWindow } = require('electron');
 const path = require("path");
 const { is } = require("@electron-toolkit/utils");
 const { updateElectronApp } = require("update-electron-app");
@@ -92,6 +93,10 @@ const createWindow = () => {
     mainWindow.once('ready-to-show', () => {
 	mainWindow.show();
 	mainWindow.focus();
+    });
+
+    mainWindow.on('close', () => {
+	windowState.saveState(mainWindow);
     });
 
     // Open the DevTools.

@@ -15,9 +15,6 @@ module.exports = {
       name: '@electron-forge/maker-dmg',
     },
     {
-      name: "@electron-forge/maker-deb",
-    },
-    {
       name: "@electron-forge/maker-rpm",
     },
   ],

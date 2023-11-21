@@ -7,7 +7,7 @@
 
 	console.log(data);
 
-	let tabSet: number = 0;
+	let tabSet: number = 1;
 </script>
 
 <div class="p-4 flex flex-col gap-4">
@@ -112,7 +112,7 @@
 	</div>
 	<div class="card p-4">
 		<TabGroup>
-			<Tab bind:group={tabSet} name="raw-source-values" value={0}>Source Events</Tab>
+			<!-- <Tab bind:group={tabSet} name="raw-source-values" value={0}>Source Events</Tab> -->
 			<Tab bind:group={tabSet} name="tab2" value={1}>Connector Attributes JSON</Tab>
 			<Tab bind:group={tabSet} name="raw-source-values" value={2}>Full Source JSON</Tab>
 			<!-- Tab Panels --->

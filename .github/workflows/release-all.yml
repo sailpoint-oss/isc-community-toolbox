@@ -24,13 +24,7 @@ jobs:
 
       - uses: actions/setup-node@master
         with:
-          node-version: 18
-          
-      - name: Setup Ubuntu
-        run: | 
-           sudo apt update
-           sudo apt install fakeroot dpkg
-        if: matrix.os == 'ubuntu-latest'      
+          node-version: 18     
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -40,11 +34,11 @@ jobs:
           path: |
             ~/.npm
             ~/AppData/Local/npm-cache # Windows cache path
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ matrix.os }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ matrix.os }}-${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ matrix.os }}-${{ runner.os }}-build-
+            ${{ matrix.os }}-${{ runner.os }}-
           
       - name: Install Dependencies for SvelteKit-App
         run: |

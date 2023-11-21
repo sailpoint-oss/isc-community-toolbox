@@ -63,19 +63,39 @@ const createWindow = () => {
   // Create the browser window.
   try {
     const mainWindow = new BrowserWindow({
-      width: 800,
-      height: 600,
-      webPreferences: {
-        preload: path.join(__dirname, "preload.js"),
-      },
-    });
+		backgroundColor: 'whitesmoke',
+		titleBarStyle: 'default',
+		autoHideMenuBar: false,
+		trafficLightPosition: {
+			x: 17,
+			y: 32,
+		},
+		minHeight: 800,
+		minWidth: 800,
+		webPreferences: {
+			contextIsolation: true,
+			nodeIntegration: true,
+			spellcheck: false,
+			devTools: true,
+			preload: path.join(__dirname, 'preload.cjs'),
+		},
+		x: windowState.x,
+		y: windowState.y,
+		width: windowState.width,
+		height: windowState.height,
+	});
 
     log.info("Opening server in window...");
     // and load the index.html of the app.
     mainWindow.loadURL(origin);
 
+    mainWindow.once('ready-to-show', () => {
+	mainWindow.show();
+	mainWindow.focus();
+    });
+
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
   } catch (e) {
     log.info("Error creating window");
     log.info(e);

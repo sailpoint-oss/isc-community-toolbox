@@ -63,6 +63,11 @@ const createWindow = () => {
   log.info("Creating window...");
   // Create the browser window.
   try {
+    let windowState = windowStateManager({
+		defaultWidth: 800,
+		defaultHeight: 800,
+    });
+	  
     const mainWindow = new BrowserWindow({
 		backgroundColor: 'whitesmoke',
 		titleBarStyle: 'default',

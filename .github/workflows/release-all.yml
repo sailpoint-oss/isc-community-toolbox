@@ -10,49 +10,52 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Build-and-Update-Release:
+  build-and-deploy:
+    name: Build and Deploy on Multiple OS
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
           fetch-depth: 0
 
-      - uses: actions/setup-node@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@master
         with:
           node-version: 18
 
-      - name: Cache SvelteKit Dependencies
+      - name: Cache npm Cache
         uses: actions/cache@v2
         with:
-          path: ./Sveltekit-App/node_modules
-          key: ${{ matrix.os }}-sveltekit-${{ hashFiles('**/Sveltekit-App/package-lock.json') }}
+          path: |
+            ~/.npm
+            ~/AppData/Local/npm-cache # Windows cache path
+          key: ${{ matrix.os }}-npm-cache-${{ hashFiles('**/Sveltekit-App/package-lock.json', '**/Electron-App/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.os }}-sveltekit-
+            ${{ matrix.os }}-npm-cache-
 
-      - name: Cache Electron Dependencies
-        uses: actions/cache@v2
-        with:
-          path: ./Electron-App/node_modules
-          key: ${{ matrix.os }}-electron-${{ hashFiles('**/Electron-App/package-lock.json') }}
-          restore-keys: |
-            ${{ matrix.os }}-electron-
-
-      - name: Install Dependencies
+      - name: Install SvelteKit Dependencies
         run: |
-          npm --prefix ./Sveltekit-App install ./Sveltekit-App
-          npm --prefix ./Electron-App install ./Electron-App
+          cd ./Sveltekit-App
+          npm install
 
-      - name: Build SvelteKit
+      - name: Install Electron Dependencies
         run: |
-          npm --prefix ./Sveltekit-App run build
+          cd ./Electron-App
+          npm install
 
-      - name: Build Electron
+      - name: Build SvelteKit Application
         run: |
-          npm --prefix ./Electron-App run publish --verbose
+          cd ./Sveltekit-App
+          npm run build
+
+      - name: Build and Publish Electron Application
+        run: |
+          cd ./Electron-App
+          npm run publish --verbose
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

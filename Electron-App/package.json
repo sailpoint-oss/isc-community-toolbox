@@ -3,6 +3,7 @@
   "productName": "idn-admin-console",
   "version": "0.0.1",
   "description": "A troubleshooting and administration app for IdentityNow",
+  "repo": "https://github.com/sailpoint-oss/idn-admin-console",
   "main": "src/index.js",
   "scripts": {
     "dev": "echo \"Skipping Electron-App\"",

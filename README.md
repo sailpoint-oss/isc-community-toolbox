@@ -36,17 +36,17 @@
   </p>
 </div>
 
-- [About The Project](#about-the-project)
-- [Getting Started](#getting-started)
-  - [Using a release](#using-a-release)
-  - [Building the Application from Source](#building-the-application-from-source)
-- [Contributing](#contributing)
+- [About the project](#about-the-project)
+- [Get started](#get-started)
+  - [Use a release](#use-a-release)
+  - [Building the application from source](#build-the-application-from-source)
+- [Contribute](#contribute)
 - [License](#license)
 - [Discuss](#discuss)
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About the project
 
 <!-- <div align="center">
 <img src="./assets/images/idn-admin-console-output.png" width="500" height="" style="text-align:center">
@@ -59,7 +59,7 @@ The goal of the admin console is to provide a single place to perform common adm
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Get started
 
 To use this tool, you will need to have an IdentityNow tenant. 
 
@@ -111,7 +111,7 @@ As long as there are no errors during the build process, the built application b
 
 
 <!-- CONTRIBUTING -->
-## Contributing
+## Contribute
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Progress from '$lib/Components/Progress.svelte';
 	import {
-		ProgressRadial,
 		Table,
 		tableMapperValues,
 		type TableSource,
@@ -12,6 +11,16 @@
 	console.log(data);
 
 	let tableSimple: TableSource | undefined = undefined;
+
+	const aggregations = data.aggData.events.map((event) => {
+		return {
+			sourceName: event.name,
+			accountStart: event.accounts.started?.created,
+			accountPass: event.accounts.passed?.created,
+			entitlementStart: event.entitlements.started?.created,
+			entitlementPass: event.entitlements.passed?.created,
+		};
+	});
 
 	onMount(() => {
 		tableSimple = {
@@ -24,7 +33,7 @@
 				'Entitlement Aggregation Passed',
 			],
 			// The data visibly shown in your table body UI.
-			body: tableMapperValues(data.aggData.events, [
+			body: tableMapperValues(aggregations, [
 				'sourceName',
 				'accountStart',
 				'accountPass',
@@ -32,7 +41,7 @@
 				'entitlementPass',
 			]),
 			// Optional: The data returned when interactive is enabled and a row is clicked.
-			meta: tableMapperValues(data.aggData.events, [
+			meta: tableMapperValues(aggregations, [
 				'sourceName',
 				'accountStart',
 				'accountPass',

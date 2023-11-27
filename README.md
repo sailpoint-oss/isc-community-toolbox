@@ -52,9 +52,9 @@
 <img src="./assets/images/idn-admin-console-output.png" width="500" height="" style="text-align:center">
 </div> -->
 
-The IdentityNow Admin Console is a tool developed and maintained by the SailPoint Developer Relations team. It is a desktop application that allows you to administer and troubleshoot IdentityNow. It is built using Electron and Sveltekit. 
+The IdentityNow Admin Console is a desktop application you can use to administer and troubleshoot IdentityNow. The admin console is built using Electron and Sveltekit, and it is developed and maintained by the SailPoint Developer Relations team. 
 
-The goal of this tool is to provide a single place to perform common administrative tasks and to troubleshoot issues in your IdentityNow tenant.
+The goal of the admin console is to provide a single place to perform common administrative tasks and troubleshoot issues in your IdentityNow tenant.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -63,51 +63,51 @@ The goal of this tool is to provide a single place to perform common administrat
 
 To use this tool, you will need to have an IdentityNow tenant. 
 
-### Using a release
+### Use a release
 
-Built versions of this application should be available for each major OS platform. You can find the latest release [here](https://github.com/sailpoint-oss/idn-admin-console/releases/latest). 
+There are built versions of this application available for each major OS platform. You can find the latest release [here](https://github.com/sailpoint-oss/idn-admin-console/releases/latest). 
 
-Simply pick your OS and download the relevant file from the latest release:
+Pick your OS and download the relevant file from the latest release:
 | Platform | File Type |
 | -------- | --------- |
 | Windows  | exe, zip  |
 | Mac      | dmg, zip  |
 | Linux    | deb, rpm, zip |
 
-If you would like to build the application yourself, you can do so by following these steps:
+If you want to build the application yourself, follow these steps:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Building the Application from Source
+### Build the application from source
 
 Prerequisites:
 * To build the application from source you will need NPM installed. You can find instructions on how to install NPM [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
 
 Once you have NPM installed, you can clone this repository and run the following commands in the specified order and folders:
 
-In the folder: `./Sveltekit-App`
-First run
+Go to the folder: `./Sveltekit-App`
+First, run this command:
 ```bash
 npm install
 ```
 
-Then run
+Then run this command:
 ```bash
 npm run build
 ```
 
-Next in the folder: `./Electron-App`
-First run
+Next, go to the folder: `./Electron-App`
+First, run this command: 
 ```bash
 npm install
 ```
 
-Then run
+Then, run this command:
 ```bash
 npm run build
 ```
 
-Assuming no errors occurred during the build process, the built application binaries should then be located in the `./Electron-App/out` folder.
+As long as there are no errors during the build process, the built application binaries will then be located in the `./Electron-App/out` folder.
 
 
 <!-- CONTRIBUTING -->
@@ -115,14 +115,16 @@ Assuming no errors occurred during the build process, the built application bina
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag `enhancement`.
+If you have a suggestion to improve this project, please fork the repo and create a pull request. You can also make a suggestion by opening an issue with the tag `enhancement`.
 Don't forget to give the project a star! Thanks again!
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Follow these steps to make contributions:
+
+1. Fork the project.
+2. Create your feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit your changes: `git commit -m 'Add some AmazingFeature'`
+4. Push to the branch: `git push origin feature/AmazingFeature`
+5. Open a pull request. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -135,6 +137,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 ## Discuss
-[Click Here](https://developer.sailpoint.com/dicuss/tag/idn-admin-console) to discuss this tool with other users.
+You can go to the [SailPoint Developer Community Forum](https://developer.sailpoint.com/dicuss/tag/idn-admin-console) to discuss this tool with other users! 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

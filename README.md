@@ -137,6 +137,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 ## Discuss
-You can go to the [SailPoint Developer Community Forum](https://developer.sailpoint.com/dicuss/tag/idn-admin-console) to discuss this tool with other users! 
+You can go to the [SailPoint Developer Community Forum](https://developer.sailpoint.com/discuss/tag/idn-admin-console) to discuss this tool with other users! 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

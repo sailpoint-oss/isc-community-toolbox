@@ -57,8 +57,8 @@
 </script>
 
 <div class="p-4">
-	<div class="flex justify-center flex-col align-middle">
-		<div class="pb-1 flex flex-row justify-between gap-4 flex-wrap">
+	<div class="card flex justify-center flex-col align-middle">
+		<div class=" p-4 flex flex-row justify-between gap-4 flex-wrap">
 			<div class="flex flex-row gap-1">
 				<input bind:value={filters} class="input" title="Filter" type="text" placeholder="Filter" />
 				<input bind:value={sorters} class="input" title="Sorter" type="text" placeholder="Sorter" />
@@ -92,8 +92,6 @@
 				<th>ID</th>
 				<th>Name</th>
 				<th>Lifecycle State</th>
-				<!-- <th>Account Aggregations</th>
-				<th>Entitlement Aggregations</th> -->
 				<th>eMail</th>
 				<th>Created</th>
 				<th>Modified</th>

@@ -32,14 +32,20 @@ export const load = async ({ cookies, url }) => {
 	try {
 		const apiResponse = await api.listIdentities(requestParams);
 
-		console.log(apiResponse.status);
-
 		return {
 			totalCount: apiResponse.headers['x-total-count'],
 			identities: apiResponse.data,
 			params: { page, limit, filters, sorters }
 		};
 	} catch (err) {
-		throw error(500, err.response.data);
+		throw error(500, {
+			message:
+				'an error occurred while fetching identities. Please examine your filters and and sorters amd try again.',
+			context: { params: { page, limit, filters, sorters } },
+			urls: [
+				'https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results'
+			],
+			errData: err.response.data
+		});
 	}
 };

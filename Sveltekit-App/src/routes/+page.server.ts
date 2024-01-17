@@ -3,13 +3,16 @@ import type { Actions } from './$types';
 import { generateAuthLink } from '$lib/utils/oauth';
 
 export const actions = {
-	default: async ({ cookies, request, url }) => {
+	default: async ({ cookies, request }) => {
 		const data = await request.formData();
 
 		const baseUrl = data.get('baseUrl');
 		const tenant = data.get('tenant');
-		const domain = data.get('domain');
 		const tenantUrl = data.get('tenantUrl');
+
+		if (!baseUrl || !tenantUrl) {
+			throw redirect(302, '/login');
+		}
 
 		const sessionString = cookies.get('idnSession');
 
@@ -26,6 +29,6 @@ export const actions = {
 		}
 
 		cookies.set('session', JSON.stringify({ baseUrl, tenantUrl }));
-		throw redirect(302, generateAuthLink(tenantUrl));
-	},
+		throw redirect(302, generateAuthLink(tenantUrl.toString()));
+	}
 } satisfies Actions;

@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { formatDate } from '$lib/Utils.js';
+	import { createOnAmountChange, createOnPageChange, createOnGo, formatDate } from '$lib/Utils.js';
 	import type { ModalSettings, PaginationSettings } from '@skeletonlabs/skeleton';
 	import { getModalStore, Paginator } from '@skeletonlabs/skeleton';
 
 	const modalStore = getModalStore();
 
 	export let data;
-
-	console.log(data);
 
 	function TriggerSourceViewModal(source: any) {
 		const modal: ModalSettings = {
@@ -23,27 +20,12 @@
 		modalStore.trigger(modal);
 	}
 
-	function onPageChange(e: CustomEvent): void {
-		console.log({ params: data.params, change: 'page', value: e.detail });
-		const params = new URLSearchParams();
-		params.set('page', e.detail);
-		params.set('limit', data.params.limit);
-		params.set('sorters', data.params.sorters);
-		params.set('filters', data.params.filters);
-
-		goto(`/home/identities?${params.toString()}`);
-	}
-
-	function onAmountChange(e: CustomEvent): void {
-		console.log({ params: data.params, change: 'limit', value: e.detail });
-		const params = new URLSearchParams();
-		params.set('page', data.params.page);
-		params.set('limit', e.detail);
-		params.set('sorters', data.params.sorters);
-		params.set('filters', data.params.filters);
-
-		goto(`/home/identities?${params.toString()}`);
-	}
+	$: onPageChange = createOnPageChange({ ...data.params, filters, sorters }, '/home/identities');
+	$: onAmountChange = createOnAmountChange(
+		{ ...data.params, filters, sorters },
+		'/home/identities'
+	);
+	$: onGo = createOnGo({ ...data.params, filters, sorters }, '/home/identities');
 
 	let settings = {
 		page: Number(data.params.page),
@@ -60,22 +42,23 @@
 	<div class="card flex justify-center flex-col align-middle">
 		<div class=" p-4 flex flex-row justify-between gap-4 flex-wrap">
 			<div class="flex flex-row gap-1">
-				<input bind:value={filters} class="input" title="Filter" type="text" placeholder="Filter" />
-				<input bind:value={sorters} class="input" title="Sorter" type="text" placeholder="Sorter" />
-				<button
-					on:click={() => {
-						const params = new URLSearchParams();
-						params.set('page', data.params.page);
-						params.set('limit', data.params.limit);
-						params.set('sorters', sorters);
-						params.set('filters', filters);
-
-						goto(`/home/identities?${params.toString()}`);
-					}}
-					class="btn variant-filled-primary text-white"
-				>
-					Go
-				</button>
+				<input
+					on:keydown={onGo}
+					bind:value={filters}
+					class="input"
+					title="Filter"
+					type="text"
+					placeholder="Filter"
+				/>
+				<input
+					on:keydown={onGo}
+					bind:value={sorters}
+					class="input"
+					title="Sorter"
+					type="text"
+					placeholder="Sorter"
+				/>
+				<button on:click={onGo} class="btn variant-filled-primary text-white"> Go </button>
 			</div>
 			<Paginator
 				bind:settings
@@ -137,8 +120,26 @@
 				{/each}
 			</tbody>
 		</table>
-		<div class=" pt-1">
-			<input class="input" title="Filter" type="text" placeholder="Filter text" />
+		<div class=" p-4 flex flex-row justify-between gap-4 flex-wrap">
+			<div class="flex flex-row gap-1">
+				<input
+					on:keydown={onGo}
+					bind:value={filters}
+					class="input"
+					title="Filter"
+					type="text"
+					placeholder="Filter"
+				/>
+				<input
+					on:keydown={onGo}
+					bind:value={sorters}
+					class="input"
+					title="Sorter"
+					type="text"
+					placeholder="Sorter"
+				/>
+				<button on:click={onGo} class="btn variant-filled-primary text-white"> Go </button>
+			</div>
 			<Paginator
 				bind:settings
 				on:page={onPageChange}

@@ -8,11 +8,13 @@ export const load: PageServerLoad = async ({ url, cookies }) => {
 	const code = url.searchParams.get('code');
 
 	const sessionString = cookies.get('session');
-	let session: any = null;
+	let session: { baseUrl: string; tenantUrl: string } | undefined = undefined;
 
 	if (sessionString) {
 		session = JSON.parse(cookies.get('session')!);
 	}
+
+	if (session == undefined) throw error(500, 'No Session Found');
 
 	if (!code) throw error(500, 'No Authorization Code Provided');
 	const response = await axios
@@ -25,6 +27,7 @@ export const load: PageServerLoad = async ({ url, cookies }) => {
 				console.log(err.response.data);
 				console.log(err.response.status);
 				console.log(err.response.headers);
+				// @ts-expect-error session is null checked above
 				throw redirect(302, generateAuthLink(session.tenantUrl));
 			} else if (err.request) {
 				// The request was made but no response was received

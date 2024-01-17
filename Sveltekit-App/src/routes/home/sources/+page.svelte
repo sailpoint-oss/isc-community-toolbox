@@ -1,17 +1,10 @@
 <script lang="ts">
-	import { formatDate } from '$lib/Utils.js';
 	import type { ModalSettings } from '@skeletonlabs/skeleton';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 
 	const modalStore = getModalStore();
 
 	export let data;
-
-	console.log(data);
-
-	// function mapEvents(sourceName: string) {
-	// 	return data.sourceData.events.filter((event) => event.name === sourceName);
-	// }
 
 	function TriggerSourceViewModal(source: any) {
 		const modal: ModalSettings = {

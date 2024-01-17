@@ -233,4 +233,5 @@ export const counterList = [
 	"Don't panic... AHHHHH!",
 	'Ensuring Gnomes are still short.',
 	'Baking ice cream...'
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 ].sort((a, b) => 0.5 - Math.random());

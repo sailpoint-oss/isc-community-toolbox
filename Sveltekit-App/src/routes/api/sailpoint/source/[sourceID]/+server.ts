@@ -2,7 +2,7 @@ import { HandleError } from '$lib/Errors.js';
 import { createConfiguration } from '$lib/sailpoint/sdk';
 import { getToken } from '$lib/utils/oauth';
 import { json } from '@sveltejs/kit';
-import { Paginator, SourcesApi, type SourcesApiGetSourceRequest } from 'sailpoint-api-client';
+import { SourcesApi } from 'sailpoint-api-client';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ cookies, params }) {
@@ -11,7 +11,7 @@ export async function GET({ cookies, params }) {
 		const idnSession = await getToken(cookies);
 
 		const config = createConfiguration(session.baseUrl, idnSession.access_token);
-		let api = new SourcesApi(config);
+		const api = new SourcesApi(config);
 
 		const val = await api.getSource({ id: params.sourceID });
 		// console.log(val);

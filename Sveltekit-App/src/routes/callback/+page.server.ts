@@ -4,13 +4,15 @@ import axios from 'axios';
 import { generateAuthLink, type IdnSession } from '$lib/utils/oauth';
 import { counterList } from './loadinglist';
 
-
-
-
-export const load: PageServerLoad = async ({ params, url, cookies }) => {
+export const load: PageServerLoad = async ({ url, cookies }) => {
 	const code = url.searchParams.get('code');
 
-	const session = JSON.parse(cookies.get("session")!)
+	const sessionString = cookies.get('session');
+	let session: any = null;
+
+	if (sessionString) {
+		session = JSON.parse(cookies.get('session')!);
+	}
 
 	if (!code) throw error(500, 'No Authorization Code Provided');
 	const response = await axios
@@ -26,7 +28,7 @@ export const load: PageServerLoad = async ({ params, url, cookies }) => {
 				throw redirect(302, generateAuthLink(session.tenantUrl));
 			} else if (err.request) {
 				// The request was made but no response was received
-				throw error(500, { message: 'No Response From IDN'});
+				throw error(500, { message: 'No Response From IDN' });
 			} else {
 				// Something happened in setting up the request that triggered an err
 				throw error(500, {
@@ -36,8 +38,8 @@ export const load: PageServerLoad = async ({ params, url, cookies }) => {
 		});
 
 	const idnSession: IdnSession = response.data as IdnSession;
-		console.log(idnSession)
-	cookies.set("idnSession", JSON.stringify(idnSession));
+	console.log(idnSession);
+	cookies.set('idnSession', JSON.stringify(idnSession));
 
 	return { idnSession, counterList };
 };

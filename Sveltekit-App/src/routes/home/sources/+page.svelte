@@ -19,8 +19,8 @@
 			component: 'codeBlockModal',
 			meta: {
 				code: JSON.stringify(source, null, 4),
-				language: 'json',
-			},
+				language: 'json'
+			}
 		};
 
 		modalStore.trigger(modal);
@@ -31,10 +31,9 @@
 	<div class="flex justify-center flex-col align-middle">
 		<table class="table">
 			<thead>
+				<th>ID</th>
 				<th>Name</th>
 				<th>Description</th>
-				<!-- <th>Account Aggregations</th>
-				<th>Entitlement Aggregations</th> -->
 				<th>Type</th>
 				<th>Authoritative</th>
 				<th>Healthy</th>
@@ -44,29 +43,14 @@
 				{#each data.sources as source}
 					<tr>
 						<td>
+							<p class="text-center">{source.id}</p>
+						</td>
+						<td>
 							<p class="text-center">{source.name}</p>
 						</td>
 						<td>
 							<p class="text-center">{source.description}</p>
 						</td>
-						<!-- {#each mapEvents(source.name) as events}
-							<td>
-								<p class="whitespace-nowrap">
-									Start: {formatDate(events.accounts.started?.created)}
-								</p>
-								<p class="whitespace-nowrap">
-									End: {formatDate(events.accounts.passed?.created)}
-								</p>
-							</td>
-							<td>
-								<p class="whitespace-nowrap">
-									Start: {formatDate(events.entitlements.started?.created)}
-								</p>
-								<p class="whitespace-nowrap">
-									End: {formatDate(events.entitlements.passed?.created)}
-								</p>
-							</td>
-						{/each} -->
 						<td>
 							<p class="text-center">{source.type}</p>
 						</td>
@@ -74,11 +58,7 @@
 							<p class="text-center">{source.authoritative ? 'True' : 'False'}</p>
 						</td>
 						<td>
-							<p
-								class="text-center font-bold {source.healthy
-									? 'text-green-500'
-									: 'text-red-500'}"
-							>
+							<p class="text-center font-bold {source.healthy ? 'text-green-500' : 'text-red-500'}">
 								{source.healthy ? 'True' : 'False'}
 							</p>
 						</td>

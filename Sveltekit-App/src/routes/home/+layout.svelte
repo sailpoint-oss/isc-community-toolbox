@@ -9,10 +9,10 @@
 			<svelte:fragment slot="lead">
 				<img class="h-8 w-8" src="/logo.ico" alt="SailPoint TetraSail" />
 			</svelte:fragment>
-			<p class="text-xl">IdentityNow Health Check</p>
+			<p class="text-xl">IdentityNow Admin Console</p>
 			<svelte:fragment slot="trail">
 				<LightSwitch />
-				<a href="/" class="btn variant-filled-primary !text-white text-lg">Logout</a>
+				<a href="/logout" class="btn variant-filled-primary !text-white text-lg">Logout</a>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>

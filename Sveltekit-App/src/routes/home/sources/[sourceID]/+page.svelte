@@ -36,19 +36,13 @@
 			<Accordion>
 				<AccordionItem>
 					<svelte:fragment slot="summary">
-						Started: {formatDate(
-							data.sourceData.sourceEvents.accounts.started?.created,
-						)}
+						Started: {formatDate(data.sourceData.sourceEvents.accounts.started?.created)}
 					</svelte:fragment>
 					<svelte:fragment slot="content">
 						<CodeBlock
 							lineNumbers
 							language=":json"
-							code={JSON.stringify(
-								data.sourceData.sourceEvents.accounts.started,
-								null,
-								4,
-							)}
+							code={JSON.stringify(data.sourceData.sourceEvents.accounts.started, null, 4)}
 						/>
 					</svelte:fragment>
 				</AccordionItem>
@@ -60,11 +54,7 @@
 						<CodeBlock
 							lineNumbers
 							language=":json"
-							code={JSON.stringify(
-								data.sourceData.sourceEvents.accounts.passed,
-								null,
-								4,
-							)}
+							code={JSON.stringify(data.sourceData.sourceEvents.accounts.passed, null, 4)}
 						/>
 					</svelte:fragment>
 				</AccordionItem>
@@ -73,37 +63,25 @@
 			<Accordion>
 				<AccordionItem>
 					<svelte:fragment slot="summary">
-						Started: {formatDate(
-							data.sourceData.sourceEvents.entitlements.started?.created,
-						)}
+						Started: {formatDate(data.sourceData.sourceEvents.entitlements.started?.created)}
 					</svelte:fragment>
 					<svelte:fragment slot="content">
 						<CodeBlock
 							lineNumbers
 							language=":json"
-							code={JSON.stringify(
-								data.sourceData.sourceEvents.entitlements.started,
-								null,
-								4,
-							)}
+							code={JSON.stringify(data.sourceData.sourceEvents.entitlements.started, null, 4)}
 						/>
 					</svelte:fragment>
 				</AccordionItem>
 				<AccordionItem>
 					<svelte:fragment slot="summary">
-						Passed: {formatDate(
-							data.sourceData.sourceEvents.entitlements.passed?.created,
-						)}
+						Passed: {formatDate(data.sourceData.sourceEvents.entitlements.passed?.created)}
 					</svelte:fragment>
 					<svelte:fragment slot="content">
 						<CodeBlock
 							lineNumbers
 							language=":json"
-							code={JSON.stringify(
-								data.sourceData.sourceEvents.entitlements.passed,
-								null,
-								4,
-							)}
+							code={JSON.stringify(data.sourceData.sourceEvents.entitlements.passed, null, 4)}
 						/>
 					</svelte:fragment>
 				</AccordionItem>
@@ -118,7 +96,7 @@
 			<!-- Tab Panels --->
 			<svelte:fragment slot="panel">
 				{#if tabSet === 0}
-					Search Events
+					<!-- SOURCE EVENTS -->
 				{:else if tabSet === 1}
 					<CodeBlock
 						lineNumbers

@@ -6,7 +6,7 @@
 
 	export let data: PageData;
 	console.log(data);
-	if (browser) setTimeout(() => goto(`/home`), 1000);
+	if (browser) setTimeout(() => goto(`/home`), 2000);
 </script>
 
 <div class="z-50 mx-auto flex h-full items-center justify-center p-4 md:p-0">

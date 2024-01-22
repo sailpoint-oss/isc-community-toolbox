@@ -25,8 +25,6 @@ export const load = async ({ cookies, url }) => {
 
 	const apiResponse = await api.listSources(requestParams);
 
-	console.log(apiResponse);
-
 	return {
 		totalCount: apiResponse.headers['x-total-count'],
 		sources: apiResponse.data,

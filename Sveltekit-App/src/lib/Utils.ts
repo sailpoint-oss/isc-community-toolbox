@@ -6,7 +6,7 @@ export function formatDate(date: string | null | undefined) {
 }
 
 export function getLimit(url: URL) {
-	return url.searchParams.get('limit') || '10';
+	return url.searchParams.get('limit') || '250';
 }
 
 export function getFilters(url: URL) {

@@ -17,14 +17,14 @@ export const actions = {
 		const sessionString = cookies.get('idnSession');
 
 		if (sessionString) {
-			console.log('sessionString', sessionString);
+			// console.log('sessionString', sessionString);
 
 			const session = JSON.parse(sessionString);
 			if (session.org == tenant) {
-				console.debug('Credential Cache Hit');
+				// console.debug('Credential Cache Hit');
 				throw redirect(302, '/home');
 			} else {
-				console.debug('Credential Cache Miss');
+				// console.debug('Credential Cache Miss');
 			}
 		}
 

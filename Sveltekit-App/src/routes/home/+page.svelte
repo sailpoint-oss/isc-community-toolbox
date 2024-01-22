@@ -2,7 +2,7 @@
 	import { reports } from '$lib/sidebar/reports';
 </script>
 
-<div class="flex flex-row flex-wrap gap-4 p-4 justify-center">
+<div class="flex flex-row flex-wrap gap-4 justify-center">
 	{#each reports as report (report.url)}
 		<a
 			class="card card-hover overflow-hidden w-modal-slim"

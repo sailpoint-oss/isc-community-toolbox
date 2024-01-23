@@ -1,10 +1,11 @@
-import { getFilters, getLimit, getSorters, getPage } from '$lib/Utils.js';
+import { getFilters, getLimit, getPage, getSorters } from '$lib/Utils.js';
 import { createConfiguration } from '$lib/sailpoint/sdk.js';
 import { getToken } from '$lib/utils/oauth.js';
 import { error } from '@sveltejs/kit';
 import {
 	IdentitiesBetaApi,
-	type IdentitiesBetaApiListIdentitiesRequest
+	type IdentitiesBetaApiListIdentitiesRequest,
+	type IdentityBeta
 } from 'sailpoint-api-client';
 
 export const load = async ({ cookies, url }) => {
@@ -27,24 +28,35 @@ export const load = async ({ cookies, url }) => {
 		count: true
 	};
 
-	try {
-		const apiResponse = await api.listIdentities(requestParams);
+	const apiResponse = api.listIdentities(requestParams);
 
-		return {
-			totalCount: apiResponse.headers['x-total-count'],
-			identities: apiResponse.data,
-			params: { page, limit, filters, sorters }
-		};
-	} catch (err) {
-		error(500, {
-        			message:
-        				'an error occurred while fetching identities. Please examine your filters and and sorters and try again.',
-        			context: { params: { page, limit, filters, sorters } },
-        			urls: [
-        				'https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results'
-        			],
-        			// @ts-expect-error Error is only thrown from the API client
-        			errData: err.response.data
-        		});
-	}
+	const totalCount = new Promise<number>((resolve) => {
+		apiResponse.then((response) => {
+			resolve(response.headers['x-total-count']);
+		});
+	});
+
+	const identities = new Promise<IdentityBeta[]>((resolve) => {
+		apiResponse
+			.then((response) => {
+				resolve(response.data);
+			})
+			.catch((err) => {
+				error(500, {
+					message:
+						'an error occurred while fetching identities. Please examine your filters and and sorters and try again.',
+					context: { params: { page, limit, filters, sorters } },
+					urls: [
+						'https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results'
+					],
+					errData: err.response.data
+				});
+			});
+	});
+
+	return {
+		totalCount,
+		identities,
+		params: { page, limit, filters, sorters }
+	};
 };

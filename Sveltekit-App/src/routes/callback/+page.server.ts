@@ -35,14 +35,16 @@ export const load: PageServerLoad = async ({ url, cookies }) => {
 			} else {
 				// Something happened in setting up the request that triggered an err
 				error(500, {
-                					message: 'Error during Axios Request'
-                				});
+					message: 'Error during Axios Request'
+				});
 			}
 		});
 
 	const idnSession: IdnSession = response.data as IdnSession;
 	// console.log(idnSession);
-	/* @migration task: add path argument */ cookies.set('idnSession', JSON.stringify(idnSession));
+	cookies.set('idnSession', JSON.stringify(idnSession), {
+		path: '/'
+	});
 
 	return { idnSession, counterList };
 };

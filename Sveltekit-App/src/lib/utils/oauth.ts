@@ -93,7 +93,9 @@ export async function getToken(cookies: Cookies): Promise<IdnSession> {
 	if (isJwtExpired(idnSession.access_token)) {
 		console.log('Refreshing IdnSession token...');
 		const newSession = await refreshToken(session.baseUrl, idnSession.refresh_token);
-		cookies.set('idnSession', JSON.stringify(newSession));
+		cookies.set('idnSession', JSON.stringify(newSession), {
+			path: '/'
+		});
 		return Promise.resolve(newSession);
 	} else {
 		console.log('IdnSession token is good');

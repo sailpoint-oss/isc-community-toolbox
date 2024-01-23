@@ -28,7 +28,13 @@ export const actions = {
 			}
 		}
 
-		/* @migration task: add path argument */ cookies.set('session', JSON.stringify({ baseUrl, tenantUrl }));
+		/* @migration task: add path argument */ cookies.set(
+			'session',
+			JSON.stringify({ baseUrl, tenantUrl }),
+			{
+				path: '/'
+			}
+		);
 		redirect(302, generateAuthLink(tenantUrl.toString()));
 	}
 } satisfies Actions;

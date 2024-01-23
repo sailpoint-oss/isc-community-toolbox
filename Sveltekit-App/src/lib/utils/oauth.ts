@@ -24,6 +24,45 @@ export type IdnSession = {
 	token_type: string;
 };
 
+export interface TokenDetails {
+	tenant_id: string;
+	internal: boolean;
+	pod: string;
+	org: string;
+	identity_id: string;
+	user_name: string;
+	strong_auth: boolean;
+	force_auth_supported: boolean;
+	active: boolean;
+	authorities: string[];
+	client_id: string;
+	encoded_scope: string[];
+	strong_auth_supported: boolean;
+	claims_supported: boolean;
+	scope: string[];
+	exp: number;
+	jti: string;
+}
+
+export async function checkToken(apiUrl: string, token: string): Promise<TokenDetails> {
+	const body = 'token=' + token;
+	const url = `${apiUrl}/oauth/check_token/`;
+	const response = await axios.post(url, body).catch(function (err) {
+		if (err.response) {
+			// Request made and server responded
+			console.log(err.response.data);
+			console.log(err.response.status);
+			console.log(err.response.headers);
+		}
+		return undefined;
+	});
+	// if (response) {
+	// 	console.log(response.data);
+	// }
+	const tokenDetails = response!.data;
+	return tokenDetails;
+}
+
 export async function refreshToken(apiUrl: string, refreshToken: string): Promise<IdnSession> {
 	const url = `${apiUrl}/oauth/token?grant_type=refresh_token&client_id=sailpoint-cli&refresh_token=${refreshToken}`;
 	const response = await axios.post(url).catch(function (err) {
@@ -52,12 +91,12 @@ export async function getToken(cookies: Cookies): Promise<IdnSession> {
 		throw redirect(302, '/');
 	}
 	if (isJwtExpired(idnSession.access_token)) {
-		console.log('refreshing token');
+		console.log('Refreshing IdnSession token...');
 		const newSession = await refreshToken(session.baseUrl, idnSession.refresh_token);
 		cookies.set('idnSession', JSON.stringify(newSession));
 		return Promise.resolve(newSession);
 	} else {
-		console.log('token is good');
+		console.log('IdnSession token is good');
 		return Promise.resolve(idnSession);
 	}
 }

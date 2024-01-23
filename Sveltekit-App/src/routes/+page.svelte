@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
-	import { LightSwitch, localStorageStore } from '@skeletonlabs/skeleton';
+	import { localStorageStore } from '@skeletonlabs/skeleton';
 	import type { Writable } from 'svelte/store';
 
 	let desktop: string;
@@ -19,21 +19,18 @@
 	const domain: Writable<string> = localStorageStore('domain', 'identitynow');
 	const baseUrl: Writable<string> = localStorageStore(
 		'baseUrl',
-		'https://${tenant}.api.${domain}.com',
+		'https://${tenant}.api.${domain}.com'
 	);
 	const tenantUrl: Writable<string> = localStorageStore(
 		'tenantUrl',
-		'https://${tenant}.${domain}.com',
+		'https://${tenant}.${domain}.com'
 	);
 
 	$: baseUrl.set(`https://${$tenant}.api.${$domain}.com`);
 	$: tenantUrl.set(`https://${$tenant}.${$domain}.com`);
 </script>
 
-<main class="p-32 relative h-full">
-	<div class="absolute top-2 right-2">
-		<LightSwitch />
-	</div>
+<main class="p-32 h-full">
 	<div class="flex flex-row justify-center">
 		<img
 			class="h-12 min-w-[590px]"
@@ -46,21 +43,11 @@
 		<form method="POST" use:enhance class="flex flex-col gap-4">
 			<label class="">
 				Tenant
-				<input
-					name="tenant"
-					placeholder={`tenant`}
-					bind:value={$tenant}
-					class="input p-2"
-				/>
+				<input name="tenant" placeholder={`tenant`} bind:value={$tenant} class="input p-2" />
 			</label>
 			<label class="">
 				Domain
-				<input
-					name="domain"
-					placeholder={`identitynow`}
-					bind:value={$domain}
-					class="input p-2"
-				/>
+				<input name="domain" placeholder={`identitynow`} bind:value={$domain} class="input p-2" />
 			</label>
 			<label class="">
 				API Base URL
@@ -82,10 +69,7 @@
 				/>
 			</label>
 
-			<button
-				type="submit"
-				class="btn variant-filled-primary w-full mt-2 !text-white text-lg"
-			>
+			<button type="submit" class="btn variant-filled-primary w-full mt-2 !text-white text-lg">
 				Login
 			</button>
 		</form>

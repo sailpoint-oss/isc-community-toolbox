@@ -1,4 +1,5 @@
 import { goto } from '$app/navigation';
+import type { ModalSettings, ModalStore } from '@skeletonlabs/skeleton';
 
 export function formatDate(date: string | null | undefined) {
 	if (!date) return 'N/A';
@@ -79,4 +80,28 @@ export function createOnGo(params: PaginationParams, path: string) {
 
 		goto(`${path}?${urlParams.toString()}`);
 	};
+}
+
+export function capitalize(s: string) {
+	if (typeof s !== 'string') return '';
+	return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+export function TriggerCodeModal(object: unknown, modalStore: ModalStore) {
+	const modal: ModalSettings = {
+		type: 'component',
+		component: 'codeBlockModal',
+		meta: {
+			code: JSON.stringify(object, null, 4),
+			language: 'json'
+		}
+	};
+
+	modalStore.trigger(modal);
+}
+
+//given any username or email from bg.admin to luke Hagar to ADMIN_123, lukeslakemail@gmail.com parse the initials into something readable
+export function parseInitials(name: string) {
+	const initials = name.match(/\b(\w)/g) || ['A', 'U'];
+	return initials.join('');
 }

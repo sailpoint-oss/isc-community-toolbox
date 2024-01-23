@@ -7,6 +7,11 @@ export function generateAuthLink(tenantUrl: string) {
 	return `${tenantUrl}/oauth/authorize?client_id=sailpoint-cli&response_type=code&redirect_uri=http://localhost:3000/callback`;
 }
 
+export type Session = {
+	baseUrl: string;
+	tenantUrl: string;
+};
+
 export type IdnSession = {
 	access_token: string;
 	refresh_token: string;
@@ -82,14 +87,31 @@ export async function refreshToken(apiUrl: string, refreshToken: string): Promis
 }
 
 export async function getToken(cookies: Cookies): Promise<IdnSession> {
-	const idnSession = <IdnSession>JSON.parse(cookies.get('idnSession')!);
-	const session = JSON.parse(cookies.get('session')!);
-	if (!idnSession && session) {
-		redirect(302, generateAuthLink(session.tenantUrl));
-	}
-	if (!idnSession && !session) {
+	const idnSessionString = cookies.get('idnSession');
+	const sessionString = cookies.get('session');
+
+	if (!sessionString) {
+		console.log('Session does not exist, redirecting to login');
 		redirect(302, '/');
 	}
+
+	const session: Session = JSON.parse(sessionString);
+
+	if (!idnSessionString) {
+		console.log('IdnSession does not exist, redirecting to login');
+		redirect(302, generateAuthLink(session.tenantUrl));
+	}
+
+	const idnSession: IdnSession = JSON.parse(idnSessionString);
+
+	if (
+		idnSession &&
+		session &&
+		!session.baseUrl.toLowerCase().includes(idnSession.org.toLowerCase())
+	) {
+		redirect(302, generateAuthLink(session.tenantUrl));
+	}
+
 	if (isJwtExpired(idnSession.access_token)) {
 		console.log('Refreshing IdnSession token...');
 		const newSession = await refreshToken(session.baseUrl, idnSession.refresh_token);
@@ -106,7 +128,12 @@ export async function getToken(cookies: Cookies): Promise<IdnSession> {
 function isJwtExpired(token: string): boolean {
 	try {
 		const decodedToken = jwt.decode(token, { complete: true });
-		if (!decodedToken || !decodedToken.payload || !decodedToken.payload.exp) {
+		if (
+			!decodedToken ||
+			!decodedToken.payload ||
+			typeof decodedToken.payload === 'string' ||
+			!decodedToken.payload.exp
+		) {
 			// The token is missing the expiration claim ('exp') or is not a valid JWT.
 			return true; // Treat as expired for safety.
 		}

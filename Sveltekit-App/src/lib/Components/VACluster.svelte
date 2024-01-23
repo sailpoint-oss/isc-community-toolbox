@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { Accordion, AccordionItem, CodeBlock } from '@skeletonlabs/skeleton';
-	import type { BaseReferenceDto } from 'sailpoint-api-client';
 
-	export let cluster: BaseReferenceDto | undefined;
+	export let cluster: { name: string; id: string } | undefined;
 
 	function formatStatusColor(status: string) {
 		switch (status) {
@@ -34,9 +33,7 @@
 			<p>CCG Version: {clusterInfo.ccgVersion}</p>
 			<p>
 				Debugging Enabled: <span
-					class={clusterInfo.configuration?.debug === 'true'
-						? 'text-green-500'
-						: 'text-red-500'}
+					class={clusterInfo.configuration?.debug === 'true' ? 'text-green-500' : 'text-red-500'}
 				>
 					{clusterInfo.configuration.debug === 'true' ? 'True' : 'False'}
 				</span>

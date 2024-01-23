@@ -1,10 +1,6 @@
 <script lang="ts">
 	import Progress from '$lib/Components/Progress.svelte';
-	import {
-		Table,
-		tableMapperValues,
-		type TableSource,
-	} from '@skeletonlabs/skeleton';
+	import { Table, tableMapperValues, type TableSource } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 
 	export let data;
@@ -18,7 +14,7 @@
 			accountStart: event.accounts.started?.created,
 			accountPass: event.accounts.passed?.created,
 			entitlementStart: event.entitlements.started?.created,
-			entitlementPass: event.entitlements.passed?.created,
+			entitlementPass: event.entitlements.passed?.created
 		};
 	});
 
@@ -30,7 +26,7 @@
 				'Account Aggregation Started',
 				'Account Aggregation Passed',
 				'Entitlement Aggregation Started',
-				'Entitlement Aggregation Passed',
+				'Entitlement Aggregation Passed'
 			],
 			// The data visibly shown in your table body UI.
 			body: tableMapperValues(aggregations, [
@@ -38,7 +34,7 @@
 				'accountStart',
 				'accountPass',
 				'entitlementStart',
-				'entitlementPass',
+				'entitlementPass'
 			]),
 			// Optional: The data returned when interactive is enabled and a row is clicked.
 			meta: tableMapperValues(aggregations, [
@@ -46,8 +42,8 @@
 				'accountStart',
 				'accountPass',
 				'entitlementStart',
-				'entitlementPass',
-			]),
+				'entitlementPass'
+			])
 		};
 	});
 
@@ -62,14 +58,11 @@
 			Listing of sources and their most recent aggregation events
 		</div>
 		{#if tableSimple}
-			<Table
-				class="w-full"
-				source={tableSimple}
-				interactive={true}
-				on:selected={onTableclick}
-			/>
+			<Table class="w-full" source={tableSimple} interactive={true} on:selected={onTableclick} />
 		{:else}
-			<Progress />
+			<div class="grid h-full place-content-center p-8">
+				<Progress width="w-[100px]" />
+			</div>
 		{/if}
 	</div>
 </div>

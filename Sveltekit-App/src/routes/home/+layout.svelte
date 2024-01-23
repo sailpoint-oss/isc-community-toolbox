@@ -125,7 +125,7 @@
 	<!-- <svelte:fragment slot="sidebarRight">Sidebar Right</svelte:fragment> -->
 	<!-- <svelte:fragment slot="pageHeader">Page Header</svelte:fragment> -->
 	<!-- Router Slot -->
-	<div class="max-h-screen">
+	<div class="flex flex-col">
 		<div class="pl-2 pt-2 pr-2">
 			<ol class="breadcrumb card p-2">
 				{#each crumbs as crumb, i}
@@ -139,7 +139,7 @@
 				{/each}
 			</ol>
 		</div>
-		<div class="p-2">
+		<div class="p-2 grow">
 			<slot />
 		</div>
 	</div>

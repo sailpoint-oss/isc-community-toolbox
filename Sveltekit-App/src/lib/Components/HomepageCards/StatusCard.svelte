@@ -19,8 +19,6 @@
 	onDestroy(() => clearInterval(interval));
 
 	function parseClass(status: string) {
-		console.log(status);
-
 		switch (status) {
 			case 'none':
 				return 'text-success-500';

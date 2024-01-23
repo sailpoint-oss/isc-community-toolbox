@@ -1,5 +1,6 @@
 import HomeSvg from '$lib/Components/SVGs/HomeSVG.svelte';
 import IdentitiesSvg from '$lib/Components/SVGs/IdentitiesSVG.svelte';
+import MessagesSvg from '$lib/Components/SVGs/MessagesSVG.svelte';
 import ReportsSvg from '$lib/Components/SVGs/ReportsSVG.svelte';
 import SourcesSvg from '$lib/Components/SVGs/SourcesSVG.svelte';
 
@@ -30,6 +31,12 @@ export const navigation = [
 				name: 'Reports',
 				description: 'a list of Reports for IdentityNow.',
 				icon: ReportsSvg
+			},
+			{
+				url: '/home/courier',
+				name: 'Courier',
+				description: 'an API client for IdentityNow with authentication baked right in.',
+				icon: MessagesSvg
 			}
 		]
 	}

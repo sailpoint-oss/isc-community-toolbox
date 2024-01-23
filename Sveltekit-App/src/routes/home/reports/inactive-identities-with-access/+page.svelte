@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Progress from '$lib/Components/Progress.svelte';
 	import { TriggerCodeModal } from '$lib/Utils.js';
 	import type { TableSource } from '@skeletonlabs/skeleton';
 	import { ProgressRadial, Table, getModalStore, tableMapperValues } from '@skeletonlabs/skeleton';
@@ -85,13 +86,8 @@
 	{#if tableSimple}
 		<Table class="w-full" source={tableSimple} interactive={true} on:selected={onTableclick} />
 	{:else}
-		<div class="progress-bar">
-			<ProgressRadial
-				stroke={100}
-				meter="stroke-primary-500"
-				track="stroke-primary-500/30"
-				class="progress-bar"
-			/>
+		<div class="grid h-full place-content-center p-8">
+			<Progress width="w-[100px]" />
 		</div>
 	{/if}
 </div>

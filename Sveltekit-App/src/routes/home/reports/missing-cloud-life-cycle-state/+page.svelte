@@ -75,6 +75,8 @@
 	{#if tableSimple}
 		<Table class="w-full" source={tableSimple} interactive={true} on:selected={onTableclick} />
 	{:else}
-		<Progress />
+		<div class="grid h-full place-content-center p-8">
+			<Progress width="w-[100px]" />
+		</div>
 	{/if}
 </div>

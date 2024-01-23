@@ -33,21 +33,20 @@
 	}
 </script>
 
-<div class="p-4 card grow">
+<div class="p-4 card grow overflow-hidden flex flex-col">
 	<h1 class="text-center">IdentityNow Status</h1>
-
-	{#await summaryResp}
-		<Progress />
-	{:then summary}
-		<div class="flex flex-row align-center gap-2 justify-center">
+	<div class="grid place-content-center h-full">
+		<!-- {#await summaryResp} -->
+		<Progress width="w-12" />
+		<!-- {:then summary}
 			<a
 				href="https://status.sailpoint.com"
-				class="{parseClass(summary?.status?.indicator)} text-center hover:underline"
+				class="{parseClass(summary?.status?.indicator)} hover:underline"
 				rel="noreferrer"
 				target="_blank"
 			>
 				{summary?.status?.description}
 			</a>
-		</div>
-	{/await}
+		{/await} -->
+	</div>
 </div>

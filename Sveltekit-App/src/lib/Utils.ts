@@ -100,7 +100,6 @@ export function TriggerCodeModal(object: unknown, modalStore: ModalStore) {
 	modalStore.trigger(modal);
 }
 
-//given any username or email from bg.admin to luke Hagar to ADMIN_123, lukeslakemail@gmail.com parse the initials into something readable
 export function parseInitials(name: string) {
 	const initials = name.match(/\b(\w)/g) || ['A', 'U'];
 	return initials.join('');

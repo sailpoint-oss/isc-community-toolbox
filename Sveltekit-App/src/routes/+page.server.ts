@@ -11,7 +11,7 @@ export const actions = {
 		const tenantUrl = data.get('tenantUrl');
 
 		if (!baseUrl || !tenantUrl) {
-			throw redirect(302, '/login');
+			redirect(302, '/login');
 		}
 
 		const sessionString = cookies.get('idnSession');
@@ -22,13 +22,13 @@ export const actions = {
 			const session = JSON.parse(sessionString);
 			if (session.org == tenant) {
 				// console.debug('Credential Cache Hit');
-				throw redirect(302, '/home');
+				redirect(302, '/home');
 			} else {
 				// console.debug('Credential Cache Miss');
 			}
 		}
 
-		cookies.set('session', JSON.stringify({ baseUrl, tenantUrl }));
-		throw redirect(302, generateAuthLink(tenantUrl.toString()));
+		/* @migration task: add path argument */ cookies.set('session', JSON.stringify({ baseUrl, tenantUrl }));
+		redirect(302, generateAuthLink(tenantUrl.toString()));
 	}
 } satisfies Actions;

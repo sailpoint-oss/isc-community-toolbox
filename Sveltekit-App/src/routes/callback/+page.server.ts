@@ -14,9 +14,9 @@ export const load: PageServerLoad = async ({ url, cookies }) => {
 		session = JSON.parse(cookies.get('session')!);
 	}
 
-	if (session == undefined) throw error(500, 'No Session Found');
+	if (session == undefined) error(500, 'No Session Found');
 
-	if (!code) throw error(500, 'No Authorization Code Provided');
+	if (!code) error(500, 'No Authorization Code Provided');
 	const response = await axios
 		.post(
 			`${session.baseUrl}/oauth/token?grant_type=authorization_code&client_id=sailpoint-cli&code=${code}&redirect_uri=http://localhost:3000/callback`
@@ -28,21 +28,21 @@ export const load: PageServerLoad = async ({ url, cookies }) => {
 				console.log(err.response.status);
 				console.log(err.response.headers);
 				// @ts-expect-error session is null checked above
-				throw redirect(302, generateAuthLink(session.tenantUrl));
+				redirect(302, generateAuthLink(session.tenantUrl));
 			} else if (err.request) {
 				// The request was made but no response was received
-				throw error(500, { message: 'No Response From IDN' });
+				error(500, { message: 'No Response From IDN' });
 			} else {
 				// Something happened in setting up the request that triggered an err
-				throw error(500, {
-					message: 'Error during Axios Request'
-				});
+				error(500, {
+                					message: 'Error during Axios Request'
+                				});
 			}
 		});
 
 	const idnSession: IdnSession = response.data as IdnSession;
 	// console.log(idnSession);
-	cookies.set('idnSession', JSON.stringify(idnSession));
+	/* @migration task: add path argument */ cookies.set('idnSession', JSON.stringify(idnSession));
 
 	return { idnSession, counterList };
 };

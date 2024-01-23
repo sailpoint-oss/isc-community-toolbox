@@ -1,6 +1,6 @@
 export const load = async ({ cookies }) => {
-	cookies.delete('session');
-	cookies.delete('idnSession');
+	/* @migration task: add path argument */ cookies.delete('session');
+	/* @migration task: add path argument */ cookies.delete('idnSession');
 
 	return { sessionLoggedOut: true };
 };

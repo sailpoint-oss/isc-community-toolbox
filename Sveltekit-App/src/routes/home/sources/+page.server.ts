@@ -1,7 +1,7 @@
 import { getFilters, getLimit, getSorters, getPage } from '$lib/Utils.js';
 import { createConfiguration } from '$lib/sailpoint/sdk.js';
 import { getToken } from '$lib/utils/oauth.js';
-import { SourcesApi, type SourcesApiListSourcesRequest } from 'sailpoint-api-client';
+import { SourcesApi, type Source, type SourcesApiListSourcesRequest } from 'sailpoint-api-client';
 
 export const load = async ({ cookies, url }) => {
 	const session = JSON.parse(cookies.get('session')!);
@@ -23,11 +23,27 @@ export const load = async ({ cookies, url }) => {
 		count: true
 	};
 
-	const apiResponse = await api.listSources(requestParams);
+	const apiResponse = api.listSources(requestParams);
 
-	return {
-		totalCount: apiResponse.headers['x-total-count'],
-		sources: apiResponse.data,
-		params: { page, limit, filters, sorters }
-	};
+	const sources = new Promise<Source[]>((resolve) => {
+		apiResponse
+			.then((response) => {
+				resolve(response.data);
+			})
+			.catch((err) => {
+				throw err;
+			});
+	});
+
+	const totalCount = new Promise<number>((resolve) => {
+		apiResponse
+			.then((response) => {
+				resolve(response.headers['x-total-count']);
+			})
+			.catch((err) => {
+				throw err;
+			});
+	});
+
+	return { sources, totalCount, params: { page, limit, filters, sorters } };
 };

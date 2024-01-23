@@ -5,7 +5,6 @@
 	const drawerStore = getDrawerStore();
 
 	$: classesDrawer = $drawerStore.id === 'doc-sidenav' ? 'lg:hidden' : '';
-	$: console.log($drawerStore.id);
 </script>
 
 <Drawer width="w-[144px]" class={classesDrawer}>

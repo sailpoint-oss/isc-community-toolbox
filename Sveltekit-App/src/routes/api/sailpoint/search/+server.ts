@@ -12,8 +12,8 @@ export async function POST({ request, cookies }) {
 		const searchJson = await request.json();
 
 		const config = createConfiguration(session.baseUrl, idnSession.access_token);
-		let api = new SearchApi(config);
-		let search: Search = searchJson;
+		const api = new SearchApi(config);
+		const search: Search = searchJson;
 		const val = (await Paginator.paginateSearchApi(api, search, 100, 20000)).data;
 		//console.log(val)
 		return json(val);

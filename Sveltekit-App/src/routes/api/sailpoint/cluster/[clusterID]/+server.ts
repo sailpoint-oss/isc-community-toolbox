@@ -14,7 +14,7 @@ export async function GET({ cookies, params }) {
 		const config = createConfiguration(session.baseUrl, idnSession.access_token);
 
 		// Route specific SDK call
-		let api = new ManagedClustersBetaApi(config);
+		const api = new ManagedClustersBetaApi(config);
 
 		const val = await api.getManagedCluster({ id: params.clusterID });
 		// console.log(val);

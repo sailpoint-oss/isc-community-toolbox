@@ -15,8 +15,8 @@ export async function POST({ request, cookies, params }) {
 		const increment = limit < 250 ? limit : 250;
 
 		const config = createConfiguration(session.baseUrl, idnSession.access_token);
-		let api = new SearchApi(config);
-		let search: Search = searchJson;
+		const api = new SearchApi(config);
+		const search: Search = searchJson;
 		const val = (await Paginator.paginateSearchApi(api, search, increment, limit)).data;
 		//console.log(val)
 		return json(val);

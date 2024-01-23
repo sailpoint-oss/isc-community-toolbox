@@ -27,23 +27,27 @@
 
 <div class="card flex justify-center flex-col align-middle">
 	{#await data.totalCount then totalCount}
-		<Paginator
-			{onAmountChange}
-			{onGo}
-			{onPageChange}
-			settings={{
-				page: Number(data.params.page),
-				limit: Number(data.params.limit),
-				size: totalCount,
-				amounts: [10, 50, 100, 250]
-			}}
-			{filters}
-			{sorters}
-			{totalCount}
-		/>
+		{#if totalCount > 250 || Number(data.params.limit) < totalCount}
+			<Paginator
+				{onAmountChange}
+				{onGo}
+				{onPageChange}
+				settings={{
+					page: Number(data.params.page),
+					limit: Number(data.params.limit),
+					size: totalCount,
+					amounts: [10, 50, 100, 250]
+				}}
+				{filters}
+				{sorters}
+				{totalCount}
+			/>
+		{/if}
 	{/await}
 	{#await data.identities}
-		<Progress />
+		<div class="grid h-full place-content-center p-8">
+			<Progress width="w-[100px]" />
+		</div>
 	{:then identities}
 		<div class="table-container">
 			<table class="table">
@@ -99,19 +103,21 @@
 		</div>
 	{/await}
 	{#await data.totalCount then totalCount}
-		<Paginator
-			{onAmountChange}
-			{onGo}
-			{onPageChange}
-			settings={{
-				page: Number(data.params.page),
-				limit: Number(data.params.limit),
-				size: totalCount,
-				amounts: [10, 50, 100, 250]
-			}}
-			{filters}
-			{sorters}
-			{totalCount}
-		/>
+		{#if totalCount > 250 || Number(data.params.limit) < totalCount}
+			<Paginator
+				{onAmountChange}
+				{onGo}
+				{onPageChange}
+				settings={{
+					page: Number(data.params.page),
+					limit: Number(data.params.limit),
+					size: totalCount,
+					amounts: [10, 50, 100, 250]
+				}}
+				{filters}
+				{sorters}
+				{totalCount}
+			/>
+		{/if}
 	{/await}
 </div>

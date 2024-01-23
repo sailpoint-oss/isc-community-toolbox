@@ -2,6 +2,7 @@
 	import Progress from '$lib/Components/Progress.svelte';
 	import { Table, tableMapperValues, type TableSource } from '@skeletonlabs/skeleton';
 	import alasql from 'alasql';
+	import type { IdentityDocument } from 'sailpoint-api-client';
 	import { onMount } from 'svelte';
 
 	export let data;
@@ -11,44 +12,35 @@
 	let tableSimple: TableSource | undefined = undefined;
 
 	onMount(async () => {
-		results = await data.response.json();
-		console.log(results);
-
-		if (JSON.stringify(data) !== '{}') {
+		if (JSON.stringify(data.reportData) !== '{}') {
 			let reportResult = [];
 
-			for (let row of <any>results) {
+			for (let row of data.reportData as IdentityDocument[]) {
 				let accounts: string[] = [];
-				for (let account of row.accounts) {
-					if (account.disabled == false) {
-						accounts.push(account.source.name);
+				if (row.accounts)
+					for (let account of row.accounts) {
+						if (account.disabled == false) {
+							if (account.source && account.source.name) accounts.push(account.source.name);
+						}
 					}
-				}
 				reportResult.push({
 					name: row.displayName,
 					source: accounts.join(', '),
 					created: row.created,
 					accessCount: row.accessCount,
 					entitlementCount: row.entitlementCount,
-					roleCount: row.roleCount,
+					roleCount: row.roleCount
 				});
 			}
 
 			let res = alasql(
 				'SELECT name, source, created, accessCount, entitlementCount, roleCount FROM ?',
-				[reportResult],
+				[reportResult]
 			);
 
 			tableSimple = {
 				// A list of heading labels.
-				head: [
-					'Name',
-					'Sources',
-					'Created',
-					'Access Count',
-					'Entitlement Count',
-					'Role Count',
-				],
+				head: ['Name', 'Sources', 'Created', 'Access Count', 'Entitlement Count', 'Role Count'],
 				// The data visibly shown in your table body UI.
 				body: tableMapperValues(res, [
 					'name',
@@ -56,7 +48,7 @@
 					'created',
 					'accessCount',
 					'entitlementCount',
-					'roleCount',
+					'roleCount'
 				]),
 				// Optional: The data returned when interactive is enabled and a row is clicked.
 				meta: tableMapperValues(res, [
@@ -65,8 +57,8 @@
 					'created',
 					'accessCount',
 					'entitlementCount',
-					'roleCount',
-				]),
+					'roleCount'
+				])
 			};
 		}
 	});
@@ -76,20 +68,13 @@
 	}
 </script>
 
-<div class="p-4">
-	<div class="flex justify-center mt-4 flex-col align-middle">
-		<div class="text-2xl py-2 text-center">
-			Listing of identities that are missing the cloud life cycle state attribute
-		</div>
-		{#if tableSimple}
-			<Table
-				class="w-full"
-				source={tableSimple}
-				interactive={true}
-				on:selected={onTableclick}
-			/>
-		{:else}
-			<Progress />
-		{/if}
+<div class="flex justify-center flex-col align-middle">
+	<div class="card text-2xl p-2 mb-2 text-center">
+		Listing of identities that are missing the cloud life cycle state attribute
 	</div>
+	{#if tableSimple}
+		<Table class="w-full" source={tableSimple} interactive={true} on:selected={onTableclick} />
+	{:else}
+		<Progress />
+	{/if}
 </div>

@@ -67,7 +67,7 @@
 
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar>
+		<AppBar padding="p-2" class="h-![72px]">
 			<svelte:fragment slot="lead">
 				<div class="flex items-center space-x-4">
 					<button on:click={drawerOpen} class="btn-icon btn-icon-sm lg:!hidden">

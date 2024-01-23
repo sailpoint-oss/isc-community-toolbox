@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
+	import Progress from '../Progress.svelte';
 
 	let summaryResp: Promise<any>;
 
@@ -36,10 +37,7 @@
 	<h1 class="text-center">IdentityNow Status</h1>
 
 	{#await summaryResp}
-		<div class="flex flex-row gap-2 justify-center">
-			<div class="placeholder-circle animate-spin w-16" />
-			<p>Checking</p>
-		</div>
+		<Progress />
 	{:then summary}
 		<div class="flex flex-row align-center gap-2 justify-center">
 			<a

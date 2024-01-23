@@ -23,7 +23,7 @@
 					created: row.created,
 					deleteThreshold: row.deleteThreshold,
 					entitlementCount: row.entitlementCount,
-					roleCount: row.roleCount,
+					roleCount: row.roleCount
 				});
 			}
 
@@ -35,7 +35,7 @@
 				// The data visibly shown in your table body UI.
 				body: tableMapperValues(res, ['name', 'created', 'deleteThreshold']),
 				// Optional: The data returned when interactive is enabled and a row is clicked.
-				meta: tableMapperValues(res, ['name', 'created', 'deleteThreshold']),
+				meta: tableMapperValues(res, ['name', 'created', 'deleteThreshold'])
 			};
 		}
 	});
@@ -48,18 +48,13 @@
 <main>
 	<div class="p-4">
 		<div class="flex justify-center mt-4 flex-col align-middle">
-			<div class="text-2xl py-2 text-center">
-				Listing of sources and their delete threshold
-			</div>
+			<div class="text-2xl py-2 text-center">Listing of sources and their delete threshold</div>
 			{#if tableSimple}
-				<Table
-					class="w-full"
-					source={tableSimple}
-					interactive={true}
-					on:selected={onTableclick}
-				/>
+				<Table class="w-full" source={tableSimple} interactive={true} on:selected={onTableclick} />
 			{:else}
-				<Progress />
+				<div class="grid h-full place-content-center p-8">
+					<Progress width="w-[100px]" />
+				</div>
 			{/if}
 		</div>
 	</div>

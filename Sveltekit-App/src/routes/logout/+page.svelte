@@ -6,7 +6,6 @@
 	onMount(() => {
 		setTimeout(async () => {
 			console.log('Redirecting to login...');
-			await invalidateAll();
 			goto('/');
 		}, 2000);
 	});

@@ -1,10 +1,14 @@
 export const load = async ({ cookies }) => {
 	cookies.delete('session', {
-		path: '/'
+		path: '/',
+		httpOnly: false,
+		secure: false
 	});
 
 	cookies.delete('idnSession', {
-		path: '/'
+		path: '/',
+		httpOnly: false,
+		secure: false
 	});
 
 	return { sessionLoggedOut: true };

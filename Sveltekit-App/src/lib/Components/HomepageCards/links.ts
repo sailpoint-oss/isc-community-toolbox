@@ -31,8 +31,8 @@ export const resourcelinks: { label: string; href: string }[] = [
 		href: 'https://community.sailpoint.com/t5/Search/bd-p/search?searchString=%22IdentityNow+Transforms+-%22'
 	},
 	{
-		label: '🧭 Compass',
-		href: 'https://community.sailpoint.com'
+		label: '📚 Rules Documentation',
+		href: 'https://developer.sailpoint.com/idn/docs/rules/'
 	},
 	{
 		label: '🔒 User Level Access Matrix',

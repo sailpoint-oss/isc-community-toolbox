@@ -100,12 +100,25 @@ export async function logout(cookies: Cookies) {
 	});
 }
 
-export async function getSession(cookies: Cookies): Promise<Session> {
+export function checkSession(cookies: Cookies): boolean {
 	const sessionString = cookies.get('session');
 	if (!sessionString) {
-		await logout(cookies);
-		redirect(302, '/');
+		return false;
 	}
+	return true;
+}
+
+export function checkIdnSession(cookies: Cookies): boolean {
+	const idnSessionString = cookies.get('idnSession');
+	if (!idnSessionString) {
+		return false;
+	}
+	return true;
+}
+
+export async function getSession(cookies: Cookies): Promise<Session> {
+	const sessionString = cookies.get('session');
+	if (!sessionString) return { baseUrl: '', tenantUrl: '' };
 	return JSON.parse(sessionString) as Session;
 }
 
@@ -113,12 +126,7 @@ export async function getToken(cookies: Cookies): Promise<IdnSession> {
 	const sessionString = cookies.get('session');
 	const idnSessionString = cookies.get('idnSession');
 
-	if (!sessionString) {
-		console.log('Session does not exist, redirecting to login');
-		redirect(302, '/');
-	}
-
-	const session: Session = JSON.parse(sessionString);
+	const session: Session = JSON.parse(sessionString!);
 
 	if (!idnSessionString) {
 		console.log('IdnSession does not exist, redirecting to login');

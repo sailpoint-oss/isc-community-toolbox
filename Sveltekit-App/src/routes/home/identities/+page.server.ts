@@ -1,6 +1,6 @@
 import { getFilters, getLimit, getPage, getSorters } from '$lib/Utils.js';
 import { createConfiguration } from '$lib/sailpoint/sdk.js';
-import { getToken } from '$lib/utils/oauth.js';
+import { getSession, getToken } from '$lib/utils/oauth.js';
 import { error } from '@sveltejs/kit';
 import {
 	IdentitiesBetaApi,
@@ -9,7 +9,7 @@ import {
 } from 'sailpoint-api-client';
 
 export const load = async ({ cookies, url }) => {
-	const session = JSON.parse(cookies.get('session')!);
+	const session = await getSession(cookies);
 	const idnSession = await getToken(cookies);
 
 	const config = createConfiguration(session.baseUrl, idnSession.access_token);

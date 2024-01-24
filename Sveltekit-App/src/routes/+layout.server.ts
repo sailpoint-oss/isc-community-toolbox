@@ -1,14 +1,14 @@
-import { checkToken, getToken, type Session } from '$lib/utils/oauth';
+import { checkSession, checkToken, getSession, getToken } from '$lib/utils/oauth';
 
 export const load = async ({ cookies, url }) => {
-	const sessionString = cookies.get('session');
-	if (!sessionString) {
+	if (!checkSession(cookies)) {
 		return { userDetails: undefined };
 	}
 
+	const session = await getSession(cookies);
+
 	if (url.pathname === '/logout' || url.pathname === '/callback') return { userDetails: undefined };
 
-	const session: Session = JSON.parse(sessionString);
 	const idnSession = await getToken(cookies);
 
 	const userDetails = await checkToken(session.baseUrl, idnSession.access_token);

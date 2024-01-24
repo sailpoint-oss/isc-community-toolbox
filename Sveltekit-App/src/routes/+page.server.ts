@@ -1,6 +1,12 @@
 import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { generateAuthLink, getSession, getToken } from '$lib/utils/oauth';
+import {
+	checkIdnSession,
+	checkSession,
+	generateAuthLink,
+	getSession,
+	getToken
+} from '$lib/utils/oauth';
 
 export const actions = {
 	default: async ({ cookies, request }) => {
@@ -38,6 +44,8 @@ export const actions = {
 } satisfies Actions;
 
 export const load = async ({ cookies }) => {
+	if (!checkSession(cookies) || !checkIdnSession(cookies)) return {};
+
 	const session = await getSession(cookies);
 	const idnSession = await getToken(cookies);
 

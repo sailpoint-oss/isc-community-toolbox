@@ -1,7 +1,7 @@
 {
   "name": "idn-admin-console",
   "productName": "idn-admin-console",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A troubleshooting and administration app for IdentityNow",
   "repo": "https://github.com/sailpoint-oss/idn-admin-console",
   "main": "src/index.js",

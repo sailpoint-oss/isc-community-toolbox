@@ -3,7 +3,7 @@
   "productName": "idn-admin-console",
   "version": "0.0.2",
   "description": "A troubleshooting and administration app for IdentityNow",
-  "repo": "https://github.com/sailpoint-oss/idn-admin-console",
+  "repository": "https://github.com/sailpoint-oss/idn-admin-console",
   "main": "src/index.js",
   "scripts": {
     "dev": "echo \"Skipping Electron-App\"",
@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@electron-toolkit/utils": "^2.0.1",
+    "@electron-toolkit/utils": "^3.0.0",
     "electron-log": "^5.0.1",
     "electron-squirrel-startup": "^1.0.0",
     "electron-window-state": "^5.0.3",
@@ -37,6 +37,6 @@
     "@electron-forge/maker-zip": "^7.1.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.1.0",
     "@electron-forge/publisher-github": "^7.1.0",
-    "electron": "27.1.0"
+    "electron": "28.1.4"
   }
 }

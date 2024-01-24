@@ -69,11 +69,12 @@ const createWindow = () => {
   // Create the browser window.
   try {
     let windowState = windowStateManager({
-      defaultWidth: 800,
-      defaultHeight: 800,
+      defaultWidth: 1920,
+      defaultHeight: 1080,
     });
 
     const mainWindow = new BrowserWindow({
+      show: false,
       backgroundColor: "whitesmoke",
       titleBarStyle: "default",
       autoHideMenuBar: false,
@@ -94,6 +95,13 @@ const createWindow = () => {
       y: windowState.y,
       width: windowState.width,
       height: windowState.height,
+    });
+
+    mainWindow.webContents.on("did-fail-load", function () {
+      console.log("did-fail-load");
+      setTimeout(() => {
+        mainWindow.loadURL(origin);
+      }, 500);
     });
 
     console.log("Opening server in window...");

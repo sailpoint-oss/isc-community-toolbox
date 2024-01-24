@@ -38,6 +38,7 @@
 		"eslint": "^8.54.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.35.1",
+		"highlight.js": "^11.9.0",
 		"jsonwebtoken": "^9.0.2",
 		"postcss": "8.4.33",
 		"prettier": "^3.1.0",

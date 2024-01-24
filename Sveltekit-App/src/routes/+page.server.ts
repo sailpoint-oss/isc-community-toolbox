@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { generateAuthLink } from '$lib/utils/oauth';
+import { generateAuthLink, getSession, getToken } from '$lib/utils/oauth';
 
 export const actions = {
 	default: async ({ cookies, request }) => {
@@ -36,3 +36,17 @@ export const actions = {
 		redirect(302, generateAuthLink(tenantUrl.toString()));
 	}
 } satisfies Actions;
+
+export const load = async ({ cookies }) => {
+	const session = await getSession(cookies);
+	const idnSession = await getToken(cookies);
+
+	if (
+		session &&
+		idnSession &&
+		session.baseUrl.toLowerCase().includes(idnSession.org.toLowerCase())
+	) {
+		redirect(302, '/home');
+	}
+	return {};
+};

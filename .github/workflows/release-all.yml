@@ -11,11 +11,21 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    name: Build and Deploy on Multiple OS
     runs-on: ${{ matrix.os }}
+    name: Build and Deploy on ${{ matrix.title }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - title: macOS
+            os: macos-11
+            platform: darwin
+          - title: Windows
+            os: windows-2022
+            platform: win32
+          - title: Linux (amd64)
+            os: ubuntu-22.04
+            arch: x64
+            platform: linux
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -27,6 +37,13 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: 18
+
+        # macOS: appears to fix https://github.com/electron/forge/issues/2807
+      - name: Setup Python 3.11 (macOS)
+        uses: actions/setup-python@v4
+        if: matrix.platform == 'darwin'
+        with:
+          python-version: "3.11"
 
       - name: Cache npm Cache
         uses: actions/cache@v2

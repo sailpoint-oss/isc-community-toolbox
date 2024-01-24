@@ -18,10 +18,10 @@ const log = require("electron-log/main");
 
 Object.assign(console, log.functions);
 
-
 console.log(
   "==================================Log Start=================================="
 );
+
 // try {
 //   console.log("Trying to update...");
 //   updateElectronApp();
@@ -29,6 +29,7 @@ console.log(
 //   console.log("Error updating");
 //   console.log(e);
 // }
+
 const port = 3000;
 const origin = `http://localhost:${port}`;
 console.log(`Starting server on ${origin}...`);
@@ -48,7 +49,7 @@ const createServer = async () => {
     // let SvelteKit handle everything else, including serving prerendered pages and static assets
     server.use(handler);
 
-    server.listen(3000, () => {
+    server.listen(port, () => {
       console.log(`Server listening on ${origin}`);
     });
   } catch (e) {

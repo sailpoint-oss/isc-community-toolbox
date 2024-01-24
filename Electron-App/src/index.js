@@ -15,29 +15,33 @@ const handlerPkg = import(
 );
 const express = require("express");
 const log = require("electron-log/main");
-log.info(
+
+Object.assign(console, log.functions);
+
+
+console.log(
   "==================================Log Start=================================="
 );
 // try {
-//   log.info("Trying to update...");
+//   console.log("Trying to update...");
 //   updateElectronApp();
 // } catch (e) {
-//   log.info("Error updating");
-//   log.info(e);
+//   console.log("Error updating");
+//   console.log(e);
 // }
 const port = 3000;
 const origin = `http://localhost:${port}`;
-log.info(`Starting server on ${origin}...`);
+console.log(`Starting server on ${origin}...`);
 
 const server = express();
 
 const createServer = async () => {
   try {
-    log.info("Starting server...");
+    console.log("Starting server...");
     const { handler } = await handlerPkg;
     // add a route that lives separately from the SvelteKit app
     server.get("/healthcheck", (req, res) => {
-      log.info("Healthcheck route hit");
+      console.log("Healthcheck route hit");
       res.end("ok");
     });
 
@@ -48,7 +52,7 @@ const createServer = async () => {
       console.log(`Server listening on ${origin}`);
     });
   } catch (e) {
-    log.info(e);
+    console.log(e);
   }
 };
 
@@ -60,7 +64,7 @@ if (require("electron-squirrel-startup")) {
 }
 
 const createWindow = () => {
-  log.info("Creating window...");
+  console.log("Creating window...");
   // Create the browser window.
   try {
     let windowState = windowStateManager({
@@ -83,7 +87,7 @@ const createWindow = () => {
         nodeIntegration: true,
         spellcheck: false,
         devTools: true,
-        preload: path.join(__dirname, "preload.cjs"),
+        preload: path.join(__dirname, "preload.js"),
       },
       x: windowState.x,
       y: windowState.y,
@@ -91,7 +95,7 @@ const createWindow = () => {
       height: windowState.height,
     });
 
-    log.info("Opening server in window...");
+    console.log("Opening server in window...");
     // and load the index.html of the app.
     mainWindow.loadURL(origin);
 
@@ -107,8 +111,8 @@ const createWindow = () => {
     // Open the DevTools.
     // mainWindow.webContents.openDevTools();
   } catch (e) {
-    log.info("Error creating window");
-    log.info(e);
+    console.log("Error creating window");
+    console.log(e);
   }
 };
 

@@ -1,93 +1,87 @@
 <script lang="ts">
 	import Progress from '$lib/Components/Progress.svelte';
-	import { TriggerCodeModal } from '$lib/Utils.js';
-	import type { TableSource } from '@skeletonlabs/skeleton';
-	import { ProgressRadial, Table, getModalStore, tableMapperValues } from '@skeletonlabs/skeleton';
-	import alasql from 'alasql';
-	import type { IdentityDocument } from 'sailpoint-api-client';
-	import { onMount } from 'svelte';
+	import { TriggerCodeModal, formatDate } from '$lib/Utils.js';
+	import { getModalStore } from '@skeletonlabs/skeleton';
 
 	export let data;
 
-	//export let data;
-	let tableSimple: TableSource | undefined = undefined;
-
-	onMount(async () => {
-		if (JSON.stringify(data.reportData) !== '{}') {
-			let reportResult = [];
-
-			console.log(data.reportData);
-
-			for (const row of data.reportData as IdentityDocument[]) {
-				let accounts: string[] = [];
-
-				if (row.accounts) {
-					for (let account of row.accounts) {
-						if (account.disabled == false) {
-							if (account.source && account.source.name) accounts.push(account.source.name);
-						}
-					}
-				}
-
-				reportResult.push({
-					id: row.id,
-					name: row.displayName,
-					source: accounts.join(', '),
-					accessCount: row.accessCount,
-					entitlementCount: row.entitlementCount,
-					roleCount: row.roleCount,
-					fullObject: row
-				});
-			}
-
-			let res = alasql(
-				'SELECT id, name, source, accessCount, entitlementCount, roleCount, fullObject FROM ?',
-				[reportResult]
-			);
-			tableSimple = {
-				// A list of heading labels.
-				head: ['ID', 'Name', 'Sources', 'Access Count', 'Entitlement Count', 'Role Count'],
-				// The data visibly shown in your table body UI.
-				body: tableMapperValues(res, [
-					'id',
-					'name',
-					'source',
-					'accessCount',
-					'entitlementCount',
-					'roleCount'
-				]),
-				// Optional: The data returned when interactive is enabled and a row is clicked.
-				meta: tableMapperValues(res, [
-					'id',
-					'name',
-					'source',
-					'accessCount',
-					'entitlementCount',
-					'roleCount',
-					'fullObject'
-				])
-			};
-		}
-	});
-
 	const modalStore = getModalStore();
-
-	function onTableclick(event: any) {
-		console.log(event);
-		TriggerCodeModal(event.detail[7], modalStore);
-	}
 </script>
 
-<div class="flex justify-center flex-col align-middle">
-	<div class="card text-2xl p-2 mb-2 text-center">
-		<p>List of all identities that are inactive but still have access in sources</p>
-		<p class="text-sm my-2">Total Count: {data.reportData.length}</p>
+<div class="flex justify-center flex-col align-middle gap-2">
+	<div class="card p-4">
+		<p class="text-2xl text-center">
+			List of all identities that are inactive but still have access in sources
+		</p>
 	</div>
-	{#if tableSimple}
-		<Table class="w-full" source={tableSimple} interactive={true} on:selected={onTableclick} />
-	{:else}
+	{#await data.reportData}
 		<div class="grid h-full place-content-center p-8">
 			<Progress width="w-[100px]" />
 		</div>
-	{/if}
+	{:then reportData}
+		{#if reportData.length === 0}
+			<div class="card p-4">
+				<p class=" text-center text-success-500">No inactive identities with access found</p>
+			</div>
+		{:else}
+			<div class="table-container">
+				<table class="table">
+					<thead class="table-head">
+						<th> Name </th>
+						<th> Sources </th>
+						<th> Created </th>
+						<th> Modified </th>
+						<th> Access Count </th>
+						<th> Entitlement Count </th>
+						<th> Role Count </th>
+						<th></th>
+					</thead>
+					<tbody class="table-body">
+						{#each reportData as identity}
+							<tr>
+								<td>
+									{identity.displayName}
+								</td>
+								<td>
+									{identity.accounts?.map((account) => account.source?.name).join(', ')}
+								</td>
+								<td>
+									{formatDate(identity.created)}
+								</td>
+								<td>
+									{formatDate(identity.modified)}
+								</td>
+								<td>
+									{identity.accessCount}
+								</td>
+								<td>
+									{identity.entitlementCount}
+								</td>
+								<td>
+									{identity.roleCount}
+								</td>
+								<td>
+									<div class="flex flex-col justify-center gap-1">
+										<a
+											href={`/home/identities/${identity.id}`}
+											class="btn btn-sm variant-filled-primary text-sm !text-white"
+											data-sveltekit-preload-data="hover"
+										>
+											Open
+										</a>
+										<button
+											on:click={() => TriggerCodeModal(identity, modalStore)}
+											class="btn btn-sm variant-filled-primary text-sm !text-white"
+										>
+											View
+										</button>
+									</div>
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		{/if}
+	{/await}
 </div>

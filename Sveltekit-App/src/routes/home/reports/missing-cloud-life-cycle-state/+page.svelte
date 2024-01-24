@@ -1,82 +1,78 @@
 <script lang="ts">
 	import Progress from '$lib/Components/Progress.svelte';
-	import { Table, tableMapperValues, type TableSource } from '@skeletonlabs/skeleton';
-	import alasql from 'alasql';
-	import type { IdentityDocument } from 'sailpoint-api-client';
-	import { onMount } from 'svelte';
+	import { TriggerCodeModal, formatDate } from '$lib/Utils';
+	import { getModalStore } from '@skeletonlabs/skeleton';
 
 	export let data;
 	console.log(data);
 
-	let results;
-	let tableSimple: TableSource | undefined = undefined;
-
-	onMount(async () => {
-		if (JSON.stringify(data.reportData) !== '{}') {
-			let reportResult = [];
-
-			for (let row of data.reportData as IdentityDocument[]) {
-				let accounts: string[] = [];
-				if (row.accounts)
-					for (let account of row.accounts) {
-						if (account.disabled == false) {
-							if (account.source && account.source.name) accounts.push(account.source.name);
-						}
-					}
-				reportResult.push({
-					name: row.displayName,
-					source: accounts.join(', '),
-					created: row.created,
-					accessCount: row.accessCount,
-					entitlementCount: row.entitlementCount,
-					roleCount: row.roleCount
-				});
-			}
-
-			let res = alasql(
-				'SELECT name, source, created, accessCount, entitlementCount, roleCount FROM ?',
-				[reportResult]
-			);
-
-			tableSimple = {
-				// A list of heading labels.
-				head: ['Name', 'Sources', 'Created', 'Access Count', 'Entitlement Count', 'Role Count'],
-				// The data visibly shown in your table body UI.
-				body: tableMapperValues(res, [
-					'name',
-					'source',
-					'created',
-					'accessCount',
-					'entitlementCount',
-					'roleCount'
-				]),
-				// Optional: The data returned when interactive is enabled and a row is clicked.
-				meta: tableMapperValues(res, [
-					'name',
-					'source',
-					'created',
-					'accessCount',
-					'entitlementCount',
-					'roleCount'
-				])
-			};
-		}
-	});
-
-	function onTableclick(event: any) {
-		console.log(event);
-	}
+	const modalStore = getModalStore();
 </script>
 
 <div class="flex justify-center flex-col align-middle">
-	<div class="card text-2xl p-2 mb-2 text-center">
-		Listing of identities that are missing the cloud life cycle state attribute
+	<div class="card p-4">
+		<p class="text-2xl text-center">
+			Listing of identities that are missing the cloud life cycle state attribute
+		</p>
 	</div>
-	{#if tableSimple}
-		<Table class="w-full" source={tableSimple} interactive={true} on:selected={onTableclick} />
-	{:else}
+	{#await data.reportData}
 		<div class="grid h-full place-content-center p-8">
 			<Progress width="w-[100px]" />
 		</div>
-	{/if}
+	{:then reportData}
+		<div class="table-container">
+			<table class="table">
+				<thead class="table-head">
+					<th> Name </th>
+					<th> Sources </th>
+					<th> Created </th>
+					<th> Access Count </th>
+					<th> Entitlement Count </th>
+					<th> Role Count </th>
+					<th></th>
+				</thead>
+				<tbody class="table-body">
+					{#each reportData as identity}
+						<tr>
+							<td>
+								{identity.displayName}
+							</td>
+							<td>
+								{identity.accounts?.map((account) => account.source?.name).join(', ')}
+							</td>
+							<td>
+								{formatDate(identity.created)}
+							</td>
+							<td>
+								{identity.accessCount}
+							</td>
+							<td>
+								{identity.entitlementCount}
+							</td>
+							<td>
+								{identity.roleCount}
+							</td>
+							<td>
+								<div class="flex flex-col justify-center gap-1">
+									<a
+										href={`/home/identities/${identity.id}`}
+										class="btn btn-sm variant-filled-primary text-sm !text-white"
+										data-sveltekit-preload-data="hover"
+									>
+										Open
+									</a>
+									<button
+										on:click={() => TriggerCodeModal(identity, modalStore)}
+										class="btn btn-sm variant-filled-primary text-sm !text-white"
+									>
+										View
+									</button>
+								</div>
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	{/await}
 </div>

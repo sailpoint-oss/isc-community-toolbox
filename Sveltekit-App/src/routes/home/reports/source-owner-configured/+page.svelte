@@ -1,61 +1,60 @@
 <script lang="ts">
 	import Progress from '$lib/Components/Progress.svelte';
-	import { Table, tableMapperValues, type TableSource } from '@skeletonlabs/skeleton';
-	import alasql from 'alasql';
-	import { onMount } from 'svelte';
+	import { TriggerCodeModal, formatDate } from '$lib/Utils';
+	import { getModalStore } from '@skeletonlabs/skeleton';
 
 	export let data;
 	console.log(data);
 
-	let results;
-	let tableSimple: TableSource | undefined = undefined;
-
-	onMount(async () => {
-		results = await data.response.json();
-		console.log(results);
-
-		if (JSON.stringify(data) !== '{}') {
-			let reportResult = [];
-
-			for (let row of <any>results) {
-				reportResult.push({
-					name: row.name,
-					modified: row.modified,
-					ownerName: row.owner.name,
-					ownerId: row.owner.id,
-				});
-			}
-
-			let res = alasql('SELECT name, modified, ownerName, ownerId FROM ?', [reportResult]);
-
-			tableSimple = {
-				// A list of heading labels.
-				head: ['Name', 'Modified', 'Owner Name', 'Owner Id'],
-				// The data visibly shown in your table body UI.
-				body: tableMapperValues(res, ['name', 'modified', 'ownerName', 'ownerId']),
-				// Optional: The data returned when interactive is enabled and a row is clicked.
-				meta: tableMapperValues(res, ['name', 'modified', 'ownerName', 'ownerId']),
-			};
-		}
-	});
-
-	function onTableclick(event: any) {
-		console.log(event);
-	}
+	const modalStore = getModalStore();
 </script>
 
-<div class="p-4">
-	<div class="flex justify-center mt-4 flex-col align-middle">
-		<div class="text-2xl py-2 text-center">Listing of sources and their delete threshold</div>
-		{#if tableSimple}
-			<Table
-				class="w-full"
-				source={tableSimple}
-				interactive={true}
-				on:selected={onTableclick}
-			/>
-		{:else}
-			<Progress />
-		{/if}
+<div class="flex justify-center flex-col align-middle gap-2">
+	<div class="card p-4">
+		<p class="text-2xl text-center">Listing of sources and their configured owners</p>
 	</div>
+	{#await data.sources}
+		<div class="grid h-full place-content-center p-8">
+			<Progress width="w-[100px]" />
+		</div>
+	{:then sources}
+		<div class="table-container">
+			<table class="table">
+				<thead class="table-head">
+					<th> Source Name </th>
+					<th> Type </th>
+					<th> Modified </th>
+					<th> Created </th>
+					<th> Owner </th>
+					<th />
+				</thead>
+				<tbody>
+					{#each sources as source}
+						<tr>
+							<td>{source.name}</td>
+							<td>{source.type}</td>
+							<td>{formatDate(source.modified)}</td>
+							<td>{formatDate(source.created)}</td>
+							<td>{source.owner.name}</td>
+							<td class="flex flex-col justify-center gap-1">
+								<a
+									href={`/home/sources/${source.id}`}
+									class="btn variant-filled-primary text-sm !text-white"
+									data-sveltekit-preload-data="hover"
+								>
+									Open Source
+								</a>
+								<button
+									on:click={() => TriggerCodeModal(source, modalStore)}
+									class="btn variant-filled-primary text-sm !text-white"
+								>
+									View
+								</button>
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	{/await}
 </div>

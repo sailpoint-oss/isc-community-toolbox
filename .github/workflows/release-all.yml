@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - './Sveltekit-App'
+      - './Electron-App'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

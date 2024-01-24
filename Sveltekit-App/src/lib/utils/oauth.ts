@@ -116,7 +116,7 @@ export function checkIdnSession(cookies: Cookies): boolean {
 	return true;
 }
 
-export async function getSession(cookies: Cookies): Promise<Session> {
+export function getSession(cookies: Cookies): Session {
 	const sessionString = cookies.get('session');
 	if (!sessionString) return { baseUrl: '', tenantUrl: '' };
 	return JSON.parse(sessionString) as Session;

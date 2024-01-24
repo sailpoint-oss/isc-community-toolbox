@@ -58,6 +58,8 @@
 					<th>Type</th>
 					<th>Authoritative</th>
 					<th>Healthy</th>
+					<th>Delete Threshold</th>
+					<th>Owner</th>
 					<th />
 				</thead>
 				<tbody class="table-body">
@@ -85,17 +87,23 @@
 									{source.healthy ? 'True' : 'False'}
 								</p>
 							</td>
+							<td>
+								<p class="text-center">{source.deleteThreshold}</p>
+							</td>
+							<td>
+								<p class="text-center">{source.owner.name}</p>
+							</td>
 							<td class="flex flex-col justify-center gap-1">
 								<a
 									href={`/home/sources/${source.id}`}
-									class="btn variant-filled-primary text-sm text-white"
+									class="btn btn-sm variant-filled-primary text-sm !text-white"
 									data-sveltekit-preload-data="hover"
 								>
 									Open
 								</a>
 								<button
 									on:click={() => TriggerCodeModal(source, modalStore)}
-									class="btn variant-filled-primary text-sm text-white"
+									class="btn btn-sm variant-filled-primary text-sm !text-white"
 								>
 									View
 								</button>

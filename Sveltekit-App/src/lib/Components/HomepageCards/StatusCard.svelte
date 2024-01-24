@@ -36,9 +36,9 @@
 <div class="p-4 card grow overflow-hidden flex flex-col">
 	<h1 class="text-center">IdentityNow Status</h1>
 	<div class="grid place-content-center h-full">
-		<!-- {#await summaryResp} -->
-		<Progress width="w-12" />
-		<!-- {:then summary}
+		{#await summaryResp}
+			<Progress width="w-12" />
+		{:then summary}
 			<a
 				href="https://status.sailpoint.com"
 				class="{parseClass(summary?.status?.indicator)} hover:underline"
@@ -47,6 +47,6 @@
 			>
 				{summary?.status?.description}
 			</a>
-		{/await} -->
+		{/await}
 	</div>
 </div>

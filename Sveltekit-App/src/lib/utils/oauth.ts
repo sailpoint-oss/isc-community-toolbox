@@ -1,7 +1,7 @@
 import type { Cookies } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { redirect } from '@sveltejs/kit';
 
 export function generateAuthLink(tenantUrl: string) {
 	return `${tenantUrl}/oauth/authorize?client_id=sailpoint-cli&response_type=code&redirect_uri=http://localhost:3000/callback`;
@@ -86,9 +86,32 @@ export async function refreshToken(apiUrl: string, refreshToken: string): Promis
 	return idnSession;
 }
 
-export async function getToken(cookies: Cookies): Promise<IdnSession> {
-	const idnSessionString = cookies.get('idnSession');
+export async function logout(cookies: Cookies) {
+	cookies.delete('session', {
+		path: '/',
+		httpOnly: false,
+		secure: false
+	});
+
+	cookies.delete('idnSession', {
+		path: '/',
+		httpOnly: false,
+		secure: false
+	});
+}
+
+export async function getSession(cookies: Cookies): Promise<Session> {
 	const sessionString = cookies.get('session');
+	if (!sessionString) {
+		await logout(cookies);
+		redirect(302, '/');
+	}
+	return JSON.parse(sessionString) as Session;
+}
+
+export async function getToken(cookies: Cookies): Promise<IdnSession> {
+	const sessionString = cookies.get('session');
+	const idnSessionString = cookies.get('idnSession');
 
 	if (!sessionString) {
 		console.log('Session does not exist, redirecting to login');
@@ -116,7 +139,9 @@ export async function getToken(cookies: Cookies): Promise<IdnSession> {
 		console.log('Refreshing IdnSession token...');
 		const newSession = await refreshToken(session.baseUrl, idnSession.refresh_token);
 		cookies.set('idnSession', JSON.stringify(newSession), {
-			path: '/'
+			path: '/',
+			httpOnly: false,
+			secure: false
 		});
 		return Promise.resolve(newSession);
 	} else {

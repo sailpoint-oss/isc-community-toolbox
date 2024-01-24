@@ -81,20 +81,22 @@
 							<td>
 								<p class="text-center">{formatDate(identity.modified)}</p>
 							</td>
-							<td class="flex flex-col justify-center gap-1">
-								<a
-									href={`/home/identities/${identity.id}`}
-									class="btn variant-filled-primary text-sm !text-white"
-									data-sveltekit-preload-data="hover"
-								>
-									Open
-								</a>
-								<button
-									on:click={() => TriggerCodeModal(identity, modalStore)}
-									class="btn variant-filled-primary text-sm !text-white"
-								>
-									View
-								</button>
+							<td>
+								<div class="flex flex-col justify-center gap-1">
+									<a
+										href={`/home/identities/${identity.id}`}
+										class="btn btn-sm variant-filled-primary text-sm !text-white"
+										data-sveltekit-preload-data="hover"
+									>
+										Open
+									</a>
+									<button
+										on:click={() => TriggerCodeModal(identity, modalStore)}
+										class="btn btn-sm variant-filled-primary text-sm !text-white"
+									>
+										View
+									</button>
+								</div>
 							</td>
 						</tr>
 					{/each}

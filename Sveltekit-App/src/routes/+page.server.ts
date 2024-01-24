@@ -3,29 +3,36 @@ import type { Actions } from './$types';
 import { generateAuthLink } from '$lib/utils/oauth';
 
 export const actions = {
-	default: async ({ cookies, request, url }) => {
+	default: async ({ cookies, request }) => {
 		const data = await request.formData();
 
 		const baseUrl = data.get('baseUrl');
-		const tenant = data.get('tenant');
-		const domain = data.get('domain');
 		const tenantUrl = data.get('tenantUrl');
 
-		const sessionString = cookies.get('idnSession');
+		if (!baseUrl || !tenantUrl) {
+			redirect(302, '/login');
+		}
 
-		if (sessionString) {
-			console.log('sessionString', sessionString);
+		const session = { baseUrl: baseUrl.toString(), tenantUrl: tenantUrl.toString() };
+		console.log('session', session);
 
-			const session = JSON.parse(sessionString);
-			if (session.org == tenant) {
-				console.debug('Credential Cache Hit');
-				throw redirect(302, '/home');
+		const idnSessionString = cookies.get('idnSession');
+
+		if (idnSessionString) {
+			// console.log('sessionString', sessionString);
+
+			const idnSession = JSON.parse(idnSessionString);
+			if (idnSession && session.baseUrl.toLowerCase().includes(idnSession.org.toLowerCase())) {
+				console.log('Credential Cache Hit');
+				redirect(302, '/home');
 			} else {
-				console.debug('Credential Cache Miss');
+				console.log('Credential Cache Miss');
 			}
 		}
 
-		cookies.set('session', JSON.stringify({ baseUrl, tenantUrl }));
-		throw redirect(302, generateAuthLink(tenantUrl));
-	},
+		cookies.set('session', JSON.stringify(session), {
+			path: '/'
+		});
+		redirect(302, generateAuthLink(tenantUrl.toString()));
+	}
 } satisfies Actions;

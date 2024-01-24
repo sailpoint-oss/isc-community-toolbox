@@ -1,18 +1,20 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import axios from 'axios';
-import { generateAuthLink, type IdnSession } from '$lib/utils/oauth';
+import { generateAuthLink, type IdnSession, type Session } from '$lib/utils/oauth';
 import { counterList } from './loadinglist';
 
-
-
-
-export const load: PageServerLoad = async ({ params, url, cookies }) => {
+export const load: PageServerLoad = async ({ url, cookies }) => {
 	const code = url.searchParams.get('code');
 
-	const session = JSON.parse(cookies.get("session")!)
+	if (!code) error(500, 'No Authorization Code Provided');
 
-	if (!code) throw error(500, 'No Authorization Code Provided');
+	const sessionString = cookies.get('session');
+
+	if (!sessionString) error(500, 'No Session Found');
+
+	const session: Session = JSON.parse(sessionString);
+
 	const response = await axios
 		.post(
 			`${session.baseUrl}/oauth/token?grant_type=authorization_code&client_id=sailpoint-cli&code=${code}&redirect_uri=http://localhost:3000/callback`
@@ -23,21 +25,25 @@ export const load: PageServerLoad = async ({ params, url, cookies }) => {
 				console.log(err.response.data);
 				console.log(err.response.status);
 				console.log(err.response.headers);
-				throw redirect(302, generateAuthLink(session.tenantUrl));
+				redirect(302, generateAuthLink(session.tenantUrl));
 			} else if (err.request) {
 				// The request was made but no response was received
-				throw error(500, { message: 'No Response From IDN'});
+				error(500, { message: 'No Response From IDN' });
 			} else {
 				// Something happened in setting up the request that triggered an err
-				throw error(500, {
+				error(500, {
 					message: 'Error during Axios Request'
 				});
 			}
 		});
 
 	const idnSession: IdnSession = response.data as IdnSession;
-		console.log(idnSession)
-	cookies.set("idnSession", JSON.stringify(idnSession));
+	console.log(idnSession);
+	cookies.set('idnSession', JSON.stringify(idnSession), {
+		path: '/',
+		httpOnly: false,
+		secure: false
+	});
 
 	return { idnSession, counterList };
 };

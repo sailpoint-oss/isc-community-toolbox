@@ -1,19 +1,14 @@
-<script>
+<script lang="ts">
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
+	export let width: string = '';
 </script>
 
-<div class="progress-bar">
+<div class="grid place-content-center {width}">
 	<ProgressRadial
+		{width}
 		stroke={100}
 		meter="stroke-primary-500"
 		track="stroke-primary-500/30"
 		class="progress-bar"
 	/>
 </div>
-
-<style>
-	.progress-bar {
-		padding-top: calc(50vh - 4.5rem - 200px);
-		padding-left: calc(50% - 4.5rem);
-	}
-</style>

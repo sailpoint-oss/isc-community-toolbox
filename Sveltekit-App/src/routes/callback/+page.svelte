@@ -6,10 +6,10 @@
 
 	export let data: PageData;
 	console.log(data);
-	if (browser) setTimeout(() => goto(`/home`), 1000);
+	if (browser) setTimeout(() => goto(`/home`), 2000);
 </script>
 
-<div class="z-50 mx-auto flex h-full items-center justify-center p-4 md:p-0">
+<div class="grid place-content-center h-[80vh]">
 	<div class="card card-glass z-50 space-y-5 p-4 md:p-10">
 		<div class="skills">
 			<AnimatedCounter

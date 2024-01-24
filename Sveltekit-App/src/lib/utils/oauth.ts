@@ -1,11 +1,16 @@
 import type { Cookies } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { redirect } from '@sveltejs/kit';
 
 export function generateAuthLink(tenantUrl: string) {
 	return `${tenantUrl}/oauth/authorize?client_id=sailpoint-cli&response_type=code&redirect_uri=http://localhost:3000/callback`;
 }
+
+export type Session = {
+	baseUrl: string;
+	tenantUrl: string;
+};
 
 export type IdnSession = {
 	access_token: string;
@@ -23,6 +28,45 @@ export type IdnSession = {
 	tenant_id: string;
 	token_type: string;
 };
+
+export interface TokenDetails {
+	tenant_id: string;
+	internal: boolean;
+	pod: string;
+	org: string;
+	identity_id: string;
+	user_name: string;
+	strong_auth: boolean;
+	force_auth_supported: boolean;
+	active: boolean;
+	authorities: string[];
+	client_id: string;
+	encoded_scope: string[];
+	strong_auth_supported: boolean;
+	claims_supported: boolean;
+	scope: string[];
+	exp: number;
+	jti: string;
+}
+
+export async function checkToken(apiUrl: string, token: string): Promise<TokenDetails> {
+	const body = 'token=' + token;
+	const url = `${apiUrl}/oauth/check_token/`;
+	const response = await axios.post(url, body).catch(function (err) {
+		if (err.response) {
+			// Request made and server responded
+			console.log(err.response.data);
+			console.log(err.response.status);
+			console.log(err.response.headers);
+		}
+		return undefined;
+	});
+	// if (response) {
+	// 	console.log(response.data);
+	// }
+	const tokenDetails = response!.data;
+	return tokenDetails;
+}
 
 export async function refreshToken(apiUrl: string, refreshToken: string): Promise<IdnSession> {
 	const url = `${apiUrl}/oauth/token?grant_type=refresh_token&client_id=sailpoint-cli&refresh_token=${refreshToken}`;
@@ -42,22 +86,66 @@ export async function refreshToken(apiUrl: string, refreshToken: string): Promis
 	return idnSession;
 }
 
+export async function logout(cookies: Cookies) {
+	cookies.delete('session', {
+		path: '/',
+		httpOnly: false,
+		secure: false
+	});
+
+	cookies.delete('idnSession', {
+		path: '/',
+		httpOnly: false,
+		secure: false
+	});
+}
+
+export async function getSession(cookies: Cookies): Promise<Session> {
+	const sessionString = cookies.get('session');
+	if (!sessionString) {
+		await logout(cookies);
+		redirect(302, '/');
+	}
+	return JSON.parse(sessionString) as Session;
+}
+
 export async function getToken(cookies: Cookies): Promise<IdnSession> {
-	const idnSession = <IdnSession>JSON.parse(cookies.get('idnSession')!);
-	const session = JSON.parse(cookies.get('session')!);
-	if (!idnSession && session) {
-		throw redirect(302, generateAuthLink(session.tenantUrl));
+	const sessionString = cookies.get('session');
+	const idnSessionString = cookies.get('idnSession');
+
+	if (!sessionString) {
+		console.log('Session does not exist, redirecting to login');
+		redirect(302, '/');
 	}
-	if (!idnSession && !session) {
-		throw redirect(302, '/');
+
+	const session: Session = JSON.parse(sessionString);
+
+	if (!idnSessionString) {
+		console.log('IdnSession does not exist, redirecting to login');
+		redirect(302, generateAuthLink(session.tenantUrl));
 	}
+
+	const idnSession: IdnSession = JSON.parse(idnSessionString);
+
+	if (
+		idnSession &&
+		session &&
+		!session.baseUrl.toLowerCase().includes(idnSession.org.toLowerCase())
+	) {
+		redirect(302, generateAuthLink(session.tenantUrl));
+	}
+
 	if (isJwtExpired(idnSession.access_token)) {
-		console.log('refreshing token');
+		console.log('Refreshing IdnSession token...');
 		const newSession = await refreshToken(session.baseUrl, idnSession.refresh_token);
-		cookies.set('idnSession', JSON.stringify(newSession));
+		cookies.set('idnSession', JSON.stringify(newSession), {
+			path: '/',
+			httpOnly: false,
+			secure: false
+		});
 		return Promise.resolve(newSession);
 	} else {
-		console.log('token is good');
+		console.log('IdnSession token is good');
 		return Promise.resolve(idnSession);
 	}
 }
@@ -65,7 +153,12 @@ export async function getToken(cookies: Cookies): Promise<IdnSession> {
 function isJwtExpired(token: string): boolean {
 	try {
 		const decodedToken = jwt.decode(token, { complete: true });
-		if (!decodedToken || !decodedToken.payload || !decodedToken.payload.exp) {
+		if (
+			!decodedToken ||
+			!decodedToken.payload ||
+			typeof decodedToken.payload === 'string' ||
+			!decodedToken.payload.exp
+		) {
 			// The token is missing the expiration claim ('exp') or is not a valid JWT.
 			return true; // Treat as expired for safety.
 		}

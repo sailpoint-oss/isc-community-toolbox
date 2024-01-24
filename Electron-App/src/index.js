@@ -1,8 +1,8 @@
-const windowStateManager = require('electron-window-state');
-const { app, BrowserWindow } = require('electron');
+const windowStateManager = require("electron-window-state");
+const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const { is } = require("@electron-toolkit/utils");
-const { updateElectronApp } = require("update-electron-app");
+// const { updateElectronApp } = require("update-electron-app");
 const handlerPkg = import(
   is.dev
     ? "../../Sveltekit-Build/src/handler.js"
@@ -18,13 +18,13 @@ const log = require("electron-log/main");
 log.info(
   "==================================Log Start=================================="
 );
-try {
-  log.info("Trying to update...");
-  updateElectronApp();
-} catch (e) {
-  log.info("Error updating");
-  log.info(e);
-}
+// try {
+//   log.info("Trying to update...");
+//   updateElectronApp();
+// } catch (e) {
+//   log.info("Error updating");
+//   log.info(e);
+// }
 const port = 3000;
 const origin = `http://localhost:${port}`;
 log.info(`Starting server on ${origin}...`);
@@ -64,44 +64,44 @@ const createWindow = () => {
   // Create the browser window.
   try {
     let windowState = windowStateManager({
-		defaultWidth: 800,
-		defaultHeight: 800,
+      defaultWidth: 800,
+      defaultHeight: 800,
     });
-	  
+
     const mainWindow = new BrowserWindow({
-		backgroundColor: 'whitesmoke',
-		titleBarStyle: 'default',
-		autoHideMenuBar: false,
-		trafficLightPosition: {
-			x: 17,
-			y: 32,
-		},
-		minHeight: 800,
-		minWidth: 800,
-		webPreferences: {
-			contextIsolation: true,
-			nodeIntegration: true,
-			spellcheck: false,
-			devTools: true,
-			preload: path.join(__dirname, 'preload.cjs'),
-		},
-		x: windowState.x,
-		y: windowState.y,
-		width: windowState.width,
-		height: windowState.height,
-	});
+      backgroundColor: "whitesmoke",
+      titleBarStyle: "default",
+      autoHideMenuBar: false,
+      trafficLightPosition: {
+        x: 17,
+        y: 32,
+      },
+      minHeight: 800,
+      minWidth: 800,
+      webPreferences: {
+        contextIsolation: true,
+        nodeIntegration: true,
+        spellcheck: false,
+        devTools: true,
+        preload: path.join(__dirname, "preload.cjs"),
+      },
+      x: windowState.x,
+      y: windowState.y,
+      width: windowState.width,
+      height: windowState.height,
+    });
 
     log.info("Opening server in window...");
     // and load the index.html of the app.
     mainWindow.loadURL(origin);
 
-    mainWindow.once('ready-to-show', () => {
-	mainWindow.show();
-	mainWindow.focus();
+    mainWindow.once("ready-to-show", () => {
+      mainWindow.show();
+      mainWindow.focus();
     });
 
-    mainWindow.on('close', () => {
-	windowState.saveState(mainWindow);
+    mainWindow.on("close", () => {
+      windowState.saveState(mainWindow);
     });
 
     // Open the DevTools.

@@ -22,7 +22,7 @@
 <p>ID: {cluster?.id || 'Empty'}</p>
 
 {#if cluster?.id}
-	{#await fetch(`/api/sailpoint/cluster/${cluster?.id}`)}
+	{#await fetch(`/api/sailpoint/cluster/${cluster.id}`)}
 		<div class="py-2 placeholder" />
 	{:then clusterResponse}
 		{#await clusterResponse.json()}

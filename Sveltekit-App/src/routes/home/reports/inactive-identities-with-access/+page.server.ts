@@ -1,6 +1,6 @@
 import { createConfiguration } from '$lib/sailpoint/sdk.js';
 import { getToken } from '$lib/utils/oauth.js';
-import { SearchApi, type Search, Paginator } from 'sailpoint-api-client';
+import { SearchApi, type Search, Paginator, type IdentityDocument } from 'sailpoint-api-client';
 
 export const load = async ({ cookies }) => {
 	const search: Search = {
@@ -16,7 +16,13 @@ export const load = async ({ cookies }) => {
 
 	const config = createConfiguration(session.baseUrl, idnSession.access_token);
 	const api = new SearchApi(config);
-	const reportData = (await Paginator.paginateSearchApi(api, search, 100, 20000)).data;
+	const reportResp = Paginator.paginateSearchApi(api, search, 100, 20000);
+
+	const reportData = new Promise<IdentityDocument[]>((resolve) => {
+		reportResp.then((response) => {
+			resolve(response.data);
+		});
+	});
 
 	return { reportData };
 };

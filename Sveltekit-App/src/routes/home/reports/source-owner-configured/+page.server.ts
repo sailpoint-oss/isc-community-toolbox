@@ -25,10 +25,10 @@ export const load = async ({ cookies, url }) => {
 
 	const apiResponse = api.listSources(requestParams);
 
-	const sources = new Promise((resolve) => {
+	const sources = new Promise<Source[]>((resolve) => {
 		apiResponse
 			.then((response) => {
-				resolve(response.data as Source[]);
+				resolve(response.data);
 			})
 			.catch((err) => {
 				throw err;

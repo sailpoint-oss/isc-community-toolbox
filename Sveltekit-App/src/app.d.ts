@@ -2,14 +2,25 @@
 // for information about these interfaces
 // and what to do when importing types
 
+import type { IdnSession, Session, TokenDetails } from '$lib/utils/oauth';
+
 declare namespace App {
-	// interface Locals {}
+	interface Locals {
+		hasSession: boolean;
+		hasIdnSession: boolean;
+		session?: Session;
+		idnSession?: IdnSession;
+		tokenDetails?: TokenDetails;
+	}
+
 	// interface PageData {}
+
 	interface Error {
 		message: string;
 		context?: unknown;
 		urls?: string[];
 		errData?: unknown;
 	}
+
 	// interface Platform {}
 }

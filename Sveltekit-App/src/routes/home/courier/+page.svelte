@@ -14,13 +14,15 @@
 		json: unknown;
 	};
 
-	type Content = JSONContent;
+	type Content = JSONContent | TextContent;
 
 	let requestBody: Content = {
+		text: '',
 		json: undefined
 	};
 
 	let responseBody: Content = {
+		text: '',
 		json: undefined
 	};
 

@@ -43,16 +43,14 @@ export const actions = {
 	}
 } satisfies Actions;
 
-export const load = async ({ cookies }) => {
-	if (!checkSession(cookies) || !checkIdnSession(cookies)) return {};
-
-	const session = await getSession(cookies);
-	const idnSession = await getToken(cookies);
+export const load = async ({ locals }) => {
+	console.log('locals', locals);
+	if (!locals.hasSession || !locals.hasIdnSession) return {};
 
 	if (
-		session &&
-		idnSession &&
-		session.baseUrl.toLowerCase().includes(idnSession.org.toLowerCase())
+		locals.hasSession &&
+		locals.hasIdnSession &&
+		locals.session.baseUrl.toLowerCase().includes(locals.idnSession.org.toLowerCase())
 	) {
 		redirect(302, '/home');
 	}

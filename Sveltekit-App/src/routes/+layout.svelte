@@ -113,19 +113,21 @@
 		<AppBar padding="p-2" class="h-![72px]">
 			<svelte:fragment slot="lead">
 				<div class="flex items-center space-x-4">
-					<button on:click={drawerOpen} class="btn-icon btn-icon-sm lg:!hidden">
-						<HamburgerSvg class="w-6 h-6" />
-					</button>
+					{#if data.tokenDetails}
+						<button on:click={drawerOpen} class="btn-icon btn-icon-sm lg:!hidden">
+							<HamburgerSvg class="w-6 h-6" />
+						</button>
+					{/if}
 					<img class="h-8 w-8" src="/logo.ico" alt="SailPoint TetraSail" />
 				</div>
 			</svelte:fragment>
 			<p class="text-xl lg:!block hidden">IdentityNow Admin Console</p>
 			<svelte:fragment slot="trail">
 				<LightSwitch />
-				{#if data.userDetails}
+				{#if data.tokenDetails}
 					<div class="rounded-full w-fit" use:popup={popupAccount}>
 						<Avatar
-							initials={parseInitials(data?.userDetails?.user_name)}
+							initials={parseInitials(data?.tokenDetails?.user_name)}
 							border="hover:border-2 border-surface-300-600-token hover:!border-primary-500"
 							cursor="cursor-pointer"
 							width="w-10"
@@ -137,22 +139,22 @@
 							<div class="arrow bg-surface-50-900-token" />
 							<div class="flex flex-col gap-2">
 								<div class="space-y-4">
-									<Avatar initials={parseInitials(data?.userDetails?.user_name)} width="w-16" />
+									<Avatar initials={parseInitials(data?.tokenDetails?.user_name)} width="w-16" />
 									<div>
-										<p class="font-bold">{data?.userDetails?.user_name}</p>
+										<p class="font-bold">{data?.tokenDetails?.user_name}</p>
 										<div class="flex flex-wrap gap-4">
 											<small>
 												<span class="opacity-50">Tenant:</span>
-												<strong>{data?.userDetails?.org}</strong>
+												<strong>{data?.tokenDetails?.org}</strong>
 											</small>
 											<small>
 												<span class="opacity-50">Pod:</span>
-												<strong>{data?.userDetails?.pod}</strong>
+												<strong>{data?.tokenDetails?.pod}</strong>
 											</small>
 										</div>
 										<small><span class="opacity-50">Scopes:</span></small>
 										<div class="flex gap-4 flex-wrap">
-											{#each data?.userDetails?.scope as scope}
+											{#each data?.tokenDetails?.scope as scope}
 												<small><strong></strong>{scope}</small>
 											{/each}
 										</div>
@@ -168,7 +170,7 @@
 		</AppBar>
 	</svelte:fragment>
 	<svelte:fragment slot="sidebarLeft">
-		{#if data.userDetails}
+		{#if data.tokenDetails}
 			<Sidebar class="hidden lg:grid overflow-hidden" />
 		{/if}
 	</svelte:fragment>

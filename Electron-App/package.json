@@ -1,6 +1,6 @@
 {
   "name": "idn-admin-console",
-  "productName": "idn-admin-console",
+  "productName": "IdentityNow Admin Console",
   "version": "0.0.3",
   "description": "A troubleshooting and administration app for IdentityNow",
   "repository": {

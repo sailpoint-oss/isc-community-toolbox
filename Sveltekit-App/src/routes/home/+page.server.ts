@@ -1,6 +1,5 @@
-import { getSession, checkSession } from '$lib/utils/oauth';
-export const load = async ({ cookies }) => {
-	if (!checkSession(cookies)) return { baseUrl: '', tenantUrl: '' };
-	const session = getSession(cookies);
-	return { session };
+export const load = async ({ locals }) => {
+	if (!locals.hasSession) return { baseUrl: '', tenantUrl: '' };
+
+	return { session: locals.session };
 };

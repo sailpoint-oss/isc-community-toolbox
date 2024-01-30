@@ -29,7 +29,7 @@ export type IdnSession = {
 	token_type: string;
 };
 
-export interface TokenDetails {
+export type TokenDetails = {
 	tenant_id: string;
 	internal: boolean;
 	pod: string;
@@ -47,6 +47,30 @@ export interface TokenDetails {
 	scope: string[];
 	exp: number;
 	jti: string;
+};
+
+export function lastCheckedToken(cookies: Cookies): string {
+	const lastCheckedToken = cookies.get('lastCheckedToken');
+	if (!lastCheckedToken) {
+		return '';
+	}
+	return lastCheckedToken;
+}
+
+export function getTokenDetails(cookies: Cookies): TokenDetails {
+	const tokenDetailsString = cookies.get('tokenDetails');
+	if (!tokenDetailsString) {
+		return {} as TokenDetails;
+	}
+	return JSON.parse(tokenDetailsString) as TokenDetails;
+}
+
+export function setTokenDetails(cookies: Cookies, tokenDetails: TokenDetails) {
+	cookies.set('tokenDetails', JSON.stringify(tokenDetails), {
+		path: '/',
+		httpOnly: false,
+		secure: false
+	});
 }
 
 export async function checkToken(apiUrl: string, token: string): Promise<TokenDetails> {
@@ -65,6 +89,7 @@ export async function checkToken(apiUrl: string, token: string): Promise<TokenDe
 	// 	console.log(response.data);
 	// }
 	const tokenDetails = response!.data;
+
 	return tokenDetails;
 }
 

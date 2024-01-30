@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tenantLinks } from './links';
 
-	export let tenantUrl = 'https://placeholder.com'
+	export let tenantUrl = 'https://placeholder.com';
 </script>
 
 <div class="p-4 card variant-soft-surface grow">

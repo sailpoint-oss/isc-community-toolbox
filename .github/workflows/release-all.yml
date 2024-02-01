@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - './Sveltekit-App'
-      - './Electron-App'
+      - "./Sveltekit-App"
+      - "./Electron-App"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -59,23 +59,15 @@ jobs:
             ${{ matrix.os }}-npm-cache-
 
       - name: Install SvelteKit Dependencies
-        run: |
-          cd ./Sveltekit-App
-          npm install
+        run: npm install --prefix Sveltekit-App
 
       - name: Install Electron Dependencies
-        run: |
-          cd ./Electron-App
-          npm install
+        run: npm install --prefix Electron-App
 
       - name: Build SvelteKit Application
-        run: |
-          cd ./Sveltekit-App
-          npm run build
+        run: npm run build --prefix Sveltekit-App
 
       - name: Build and Publish Electron Application
-        run: |
-          cd ./Electron-App
-          npm run publish --verbose
+        run: npm run publish --verbose --prefix Electron-App
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

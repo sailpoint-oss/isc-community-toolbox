@@ -5,15 +5,5 @@
   "author": {
     "name": "Luke Hagar",
     "email": "luke.hagar@sailpoint.com"
-  },
-  "private": true,
-  "scripts": {
-    "bump": "npm version patch --workspaces --include-workspace-root",
-    "dev": "npm run dev --workspaces",
-    "build": "npm run build --workspaces"
-  },
-  "workspaces": [
-    "Sveltekit-App",
-    "Electron-App"
-  ]
+  }
 }

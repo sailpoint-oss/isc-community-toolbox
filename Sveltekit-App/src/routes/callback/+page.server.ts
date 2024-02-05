@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ url, cookies, locals }) => {
 
 	if (!code) error(500, 'No Authorization Code Provided');
 
-	if (!locals.hasSession) error(500, 'No Session Found');
+	if (!locals.session) error(500, 'No Session Found');
 
 	const response = await axios
 		.post(

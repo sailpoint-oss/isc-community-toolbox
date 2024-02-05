@@ -1,12 +1,8 @@
+import {
+	generateAuthLink
+} from '$lib/utils/oauth';
 import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import {
-	checkIdnSession,
-	checkSession,
-	generateAuthLink,
-	getSession,
-	getToken
-} from '$lib/utils/oauth';
 
 export const actions = {
 	default: async ({ cookies, request }) => {
@@ -45,11 +41,11 @@ export const actions = {
 
 export const load = async ({ locals }) => {
 	console.log('locals', locals);
-	if (!locals.hasSession || !locals.hasIdnSession) return {};
+	if (!locals.session || !locals.idnSession) return {};
 
 	if (
-		locals.hasSession &&
-		locals.hasIdnSession &&
+		locals.session &&
+		locals.idnSession &&
 		locals.session.baseUrl.toLowerCase().includes(locals.idnSession.org.toLowerCase())
 	) {
 		redirect(302, '/home');

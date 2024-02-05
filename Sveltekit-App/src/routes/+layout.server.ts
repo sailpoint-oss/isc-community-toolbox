@@ -1,5 +1,5 @@
 export const load = async ({ url, locals }) => {
-	if (!locals.hasSession || !locals.hasIdnSession || url.pathname === '/logout') {
+	if (!locals.session || !locals.idnSession || url.pathname === '/logout') {
 		return { tokenDetails: undefined };
 	}
 

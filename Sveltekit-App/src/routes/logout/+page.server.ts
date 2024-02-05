@@ -1,4 +1,5 @@
 export const load = async ({ cookies }) => {
+	
 	cookies.delete('session', {
 		path: '/',
 		httpOnly: false,

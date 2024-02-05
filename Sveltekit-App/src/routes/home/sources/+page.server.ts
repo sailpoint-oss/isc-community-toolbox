@@ -3,11 +3,9 @@ import { createConfiguration } from '$lib/sailpoint/sdk.js';
 import { getToken } from '$lib/utils/oauth.js';
 import { SourcesApi, type Source, type SourcesApiListSourcesRequest } from 'sailpoint-api-client';
 
-export const load = async ({ cookies, url }) => {
-	const session = JSON.parse(cookies.get('session')!);
-	const idnSession = await getToken(cookies);
+export const load = async ({ url, locals }) => {
 
-	const config = createConfiguration(session.baseUrl, idnSession.access_token);
+	const config = createConfiguration(locals.session.baseUrl, locals.idnSession.access_token);
 	const api = new SourcesApi(config);
 
 	const page = getPage(url);

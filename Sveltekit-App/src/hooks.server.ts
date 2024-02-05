@@ -12,8 +12,6 @@ import { redirect, type Handle } from '@sveltejs/kit';
 export const handle: Handle = async ({ event, resolve }) => {
 	const hasSession = checkSession(event.cookies);
 	const hasIdnSession = checkIdnSession(event.cookies);
-	event.locals.hasSession = hasSession;
-	event.locals.hasIdnSession = hasIdnSession;
 	if (hasSession) {
 		event.locals.session = getSession(event.cookies);
 		if (hasIdnSession) {

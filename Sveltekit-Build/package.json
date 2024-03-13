@@ -1,8 +1,0 @@
-{
-  "name": "built-app",
-  "version": "0.0.2",
-  "scripts": {
-    "start": "node ./src"
-  },
-  "type": "module"
-}

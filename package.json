@@ -38,7 +38,6 @@
 		"electron-is-dev": "^3.0.1",
 		"electron-log": "^5.1.1",
 		"electron-squirrel-startup": "^1.0.0",
-		"electron-toolkit": "^1.0.24",
 		"electron-util": "^0.18.0",
 		"electron-vite": "^2.1.0",
 		"electron-window-state": "^5.0.3",

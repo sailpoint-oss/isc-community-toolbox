@@ -83,8 +83,7 @@ export function setTokenDetails(cookies: Cookies, tokenDetails: TokenDetails) {
 export async function checkToken(apiUrl: string, token: string): Promise<TokenDetails | undefined> {
 	const body = 'token=' + token;
 	const url = `${apiUrl}/oauth/check_token/`;
-	return (
-		await axios.post(url, body).catch(function (err) {
+		const resp = await axios.post(url, body).catch(function (err) {
 			if (err.response) {
 				// Request made and server responded
 				console.log(err.response.data);
@@ -93,7 +92,11 @@ export async function checkToken(apiUrl: string, token: string): Promise<TokenDe
 			}
 			return undefined;
 		})
-	).data;
+		if (resp && resp.data) {
+			return resp.data;
+		} else {
+			return undefined;
+		}
 }
 
 export async function refreshToken(
@@ -101,19 +104,24 @@ export async function refreshToken(
 	refreshToken: string
 ): Promise<IdnSession | undefined> {
 	const url = `${apiUrl}/oauth/token?grant_type=refresh_token&client_id=sailpoint-cli&refresh_token=${refreshToken}`;
-	return (
-		await axios.post(url).catch(function (err) {
-			if (err.response) {
-				console.log(
-					'Error refreshing token',
-					err.response.data,
-					err.response.status,
-					err.response.headers
-				);
-			}
-			return undefined;
-		})
-	).data as IdnSession;
+	const resp = await axios.post(url).catch(function (err) {
+		if (err.response) {
+			console.log(
+				'Error refreshing token',
+				err.response.data,
+				err.response.status,
+				err.response.headers
+			);
+		}
+		return undefined;
+	})
+	if (resp && resp.data) {
+		return resp.data as IdnSession;
+	} else {
+		return undefined;
+	}
+
+
 }
 
 export async function logout(cookies: Cookies) {

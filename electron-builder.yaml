@@ -1,4 +1,4 @@
-appId: com.electron.isc-admin-console
+appId: com.example.ui-development-kit
 productName: ISC Admin Console
 directories:
   buildResources: build
@@ -11,22 +11,33 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
+# afterSign: build/notarize.js
 win:
-  target:
-    - nsis
-    - portable
-    - zip
+  executableName: isc-admin-console
+nsis:
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
 mac:
-  target:
-    - dmg
-    - zip
+  entitlementsInherit: build/entitlements.mac.plist
+  # extendInfo:
+  #   - NSCameraUsageDescription: Application requests access to the device's camera.
+  #   - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
+  #   - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
+  #   - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+dmg:
+  artifactName: ${name}-${version}.${ext}
 linux:
   target:
     - AppImage
     - snap
     - deb
-    - rpm
   maintainer: SailPoint Technologies
   category: Utility
+appImage:
+  artifactName: ${name}-${version}.${ext}
 npmRebuild: false
-
+# publish:
+#   provider: generic
+#   url: https://example.com/auto-updates

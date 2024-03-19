@@ -1,6 +1,8 @@
-import { getSession, checkSession } from '$lib/utils/oauth';
-export const load = async ({ cookies }) => {
-	if (!checkSession(cookies)) return { baseUrl: '', tenantUrl: '' };
-	const session = getSession(cookies);
-	return { session };
+export const load = async ({ locals }) => {
+	if (locals.session) {
+		return {session: locals.session}
+	} else {
+		return {session: {tenantUrl: 'https://example.com', baseUrl: 'https://example.com', tenant: 'example'}}
+	}
+	
 };

@@ -8,11 +8,9 @@ import {
 	type Search
 } from 'sailpoint-api-client';
 
-export const load = async ({ cookies, params }) => {
-	const session = await getSession(cookies);
-	const idnSession = await getToken(cookies);
+export const load = async ({ locals, params }) => {
 
-	const config = createConfiguration(session.baseUrl, idnSession.access_token);
+	const config = createConfiguration(locals.session!.baseUrl, locals.idnSession!.access_token);
 	const identityApi = new IdentitiesBetaApi(config);
 	const searchApi = new SearchApi(config);
 

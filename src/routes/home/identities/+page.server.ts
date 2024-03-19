@@ -8,11 +8,9 @@ import {
 	type IdentityBeta
 } from 'sailpoint-api-client';
 
-export const load = async ({ cookies, url }) => {
-	const session = await getSession(cookies);
-	const idnSession = await getToken(cookies);
+export const load = async ({ locals, url }) => {
 
-	const config = createConfiguration(session.baseUrl, idnSession.access_token);
+	const config = createConfiguration(locals.session!.baseUrl, locals.idnSession!.access_token)
 	const api = new IdentitiesBetaApi(config);
 
 	const page = getPage(url);

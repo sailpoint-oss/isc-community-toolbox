@@ -2,11 +2,9 @@ import { createConfiguration } from '$lib/sailpoint/sdk.js';
 import { getToken } from '$lib/utils/oauth.js';
 import { SearchApi, SourcesApi, type EventDocument, type Search } from 'sailpoint-api-client';
 
-export const load = async ({ cookies, params }) => {
-	const session = JSON.parse(cookies.get('session')!);
-	const idnSession = await getToken(cookies);
+export const load = async ({ locals, params }) => {
 
-	const config = createConfiguration(session.baseUrl, idnSession.access_token);
+	const config = createConfiguration(locals.session!.baseUrl, locals.idnSession!.access_token);
 	const sourceApi = new SourcesApi(config);
 	const searchApi = new SearchApi(config);
 

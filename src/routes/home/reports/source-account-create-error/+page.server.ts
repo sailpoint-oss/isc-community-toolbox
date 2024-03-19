@@ -2,11 +2,9 @@ import { createConfiguration } from '$lib/sailpoint/sdk';
 import { getSession, getToken } from '$lib/utils/oauth';
 import { Paginator, SearchApi, type Search, type EventDocument } from 'sailpoint-api-client';
 
-export const load = async ({ cookies }) => {
-	const session = await getSession(cookies);
-	const idnSession = await getToken(cookies);
+export const load = async ({ locals }) => {
 
-	const config = createConfiguration(session.baseUrl, idnSession.access_token);
+	const config = createConfiguration(locals.session!.baseUrl, locals.idnSession!.access_token);
 	const api = new SearchApi(config);
 	const search: Search = {
 		indices: ['events'],

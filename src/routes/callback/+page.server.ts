@@ -1,31 +1,29 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import axios from 'axios';
-import { generateAuthLink, type IdnSession, type Session } from '$lib/utils/oauth';
+import { generateAuthLink } from '$lib/utils/oauth';
 import { counterList } from './loadinglist';
+import { encrypt } from '$lib/encryption';
 
-export const load: PageServerLoad = async ({ url, cookies }) => {
+export const load: PageServerLoad = async ({ url, cookies, locals }) => {
 	const code = url.searchParams.get('code');
 
-	if (!code) error(500, 'No Authorization Code Provided');
+	if (!code) error(500, { message: 'No Authorization Code Provided' });
 
-	const sessionString = cookies.get('session');
-
-	if (!sessionString) error(500, 'No Session Found');
-
-	const session: Session = JSON.parse(sessionString);
+	if (!locals.session) error(500, { message: 'No Session Found' });
 
 	const response = await axios
 		.post(
-			`${session.baseUrl}/oauth/token?grant_type=authorization_code&client_id=sailpoint-cli&code=${code}&redirect_uri=http://localhost:3000/callback`
+			`${locals.session.baseUrl}/oauth/token?grant_type=authorization_code&client_id=sailpoint-cli&code=${code}&redirect_uri=http://localhost:3000/callback`
 		)
 		.catch(function (err) {
+			console.error(err);
 			if (err.response) {
 				// Request made and server responded
 				console.log(err.response.data);
 				console.log(err.response.status);
 				console.log(err.response.headers);
-				redirect(302, generateAuthLink(session.tenantUrl));
+				redirect(302, generateAuthLink(locals.session!.tenantUrl));
 			} else if (err.request) {
 				// The request was made but no response was received
 				error(500, { message: 'No Response From IDN' });
@@ -37,13 +35,9 @@ export const load: PageServerLoad = async ({ url, cookies }) => {
 			}
 		});
 
-	const idnSession: IdnSession = response.data as IdnSession;
-	console.log(idnSession);
-	cookies.set('idnSession', JSON.stringify(idnSession), {
-		path: '/',
-		httpOnly: false,
-		secure: false
+	cookies.set('idnSession', encrypt(JSON.stringify(response.data)), {
+		path: '/'
 	});
 
-	return { idnSession, counterList };
+	return { counterList };
 };

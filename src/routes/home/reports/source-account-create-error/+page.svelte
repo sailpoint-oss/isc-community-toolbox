@@ -29,15 +29,23 @@
 			}
 
 			console.log(reportResult);
+			let sourceFailure = {}
+			for (let row of reportResult) {
+				
+				if (row.source + row.failure + row.name in sourceFailure) {
+					sourceFailure[row.source + row.failure + row.name].failures += 1;
+				} else {
+					sourceFailure[row.source + row.failure + row.name] = {
+						source: row.source,
+						failure: row.failure,
+						name: row.name,
+						exception: row.exception,
+						failures: 1
+					};
+				}
+			}
 
-			let res = alasql(
-				'SELECT failure, source, name, exception, count(*) as failures FROM ? GROUP BY failure, source, name, exception',
-				[reportResult]
-			);
-
-			console.log(res);
-
-			resolve(res);
+			resolve(Object.values(sourceFailure));
 		});
 	});
 

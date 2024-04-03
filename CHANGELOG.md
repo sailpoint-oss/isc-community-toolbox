@@ -1,4 +1,4 @@
-# IdentityNow Admin Console Changelog
+# Identity Security Cloud Community Toolbox Changelog
 
 All notable changes to this project will be documented in this file.
 

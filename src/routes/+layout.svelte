@@ -121,7 +121,7 @@
 					<img class="h-8 w-8" src="/logo.ico" alt="SailPoint TetraSail" />
 				</div>
 			</svelte:fragment>
-			<p class="text-xl lg:!block hidden">Identity Security Cloud Admin Console</p>
+			<p class="text-xl lg:!block hidden">Identity Security Cloud Community Toolbox</p>
 			<svelte:fragment slot="trail">
 				<LightSwitch />
 				{#if data.tokenDetails}

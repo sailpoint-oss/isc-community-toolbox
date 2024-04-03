@@ -12,7 +12,7 @@
 			you believe this is a bug please submit an issue on
 			<a
 				class="underline text-blue-500 hover:text-blue-700"
-				href="https://github.com/sailpoint-oss/idn-admin-console/issues/new/choose"
+				href="https://github.com/sailpoint-oss/idn-community-toolbox/issues/new/choose"
 				rel="noreferrer"
 				target="_blank"
 			>

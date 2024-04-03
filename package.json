@@ -1,5 +1,5 @@
 {
-	"name": "isc-admin-console-svelte",
+	"name": "isc-community-toolbox-svelte",
 	"description": "A troubleshooting and administration app for Identity Security Cloud",
 	"version": "0.0.3",
 	"private": true,

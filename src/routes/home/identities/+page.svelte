@@ -23,11 +23,12 @@
 
 	let filters = '';
 	let sorters = '';
+
 </script>
 
 <div class="card flex justify-center flex-col align-middle">
 	{#await data.totalCount then totalCount}
-		{#if totalCount > 250 || Number(data.params.limit) < totalCount}
+
 			<Paginator
 				{onAmountChange}
 				{onGo}
@@ -38,11 +39,11 @@
 					size: totalCount,
 					amounts: [10, 50, 100, 250]
 				}}
-				{filters}
-				{sorters}
+				bind:filters={filters}
+				bind:sorters={sorters}
 				{totalCount}
 			/>
-		{/if}
+
 	{/await}
 	{#await data.identities}
 		<div class="grid h-full place-content-center p-8">
@@ -116,8 +117,8 @@
 					size: totalCount,
 					amounts: [10, 50, 100, 250]
 				}}
-				{filters}
-				{sorters}
+				bind:filters={filters}
+				bind:sorters={sorters}
 				{totalCount}
 			/>
 		{/if}

@@ -16,9 +16,7 @@
 
 	type Content = JSONContent;
 
-	let requestBody: Content = {
-		json: undefined
-	};
+	let requestBody: string = '{}'
 
 	let responseBody: Content = {
 		json: undefined
@@ -30,13 +28,19 @@
 	}
 
 	async function makeAPICall() {
+
+		const headers = {
+			authorization: `Bearer ${data.idnSession.access_token}`
+		};
+		if (selectedAPIMethod == 'PATCH') {
+			headers['Content-Type'] = 'application/json-patch+json';
+		}
+
 		const response = await axios({
 			method: selectedAPIMethod,
 			url: `${data.session.baseUrl}/${APICallPath}`,
-			data: requestBody.json,
-			headers: {
-				authorization: `Bearer ${data.idnSession.access_token}`
-			}
+			data: JSON.parse(requestBody),
+			headers: headers
 		}).catch((err) => {
 			console.error(err);
 			return err;
@@ -122,7 +126,7 @@
 		</select>
 	</div>
 	<div class="flex flex-row">
-		<select class="w-[100px] select rounded-r-none">
+		<select class="w-[100px] select rounded-r-none" bind:value={selectedAPIMethod}>
 			{#each Object.entries(selectedPath.value) as [method, content]}
 				<option>{method.toUpperCase()}</option>
 			{/each}
@@ -140,7 +144,7 @@
 	<div class="card">
 		<p class="text-center pt-4">Request</p>
 		<div class="{editorClasses}  rounded-lg overflow-hidden pt-2">
-			<JSONEditor bind:content={requestBody} />
+			<pre><textarea class="textarea h-80" bind:value={requestBody}></textarea></pre>
 		</div>
 	</div>
 	<div class="card">

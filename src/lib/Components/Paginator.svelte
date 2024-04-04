@@ -8,6 +8,7 @@
 	export let onGo: (e: KeyboardEvent | MouseEvent) => void;
 	export let filters: string = '';
 	export let sorters: string = '';
+	
 </script>
 
 <div class=" p-4 flex flex-row flex-wrap justify-between gap-4">

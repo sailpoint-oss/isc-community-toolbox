@@ -40,6 +40,7 @@ export const load = async ({ locals, url }) => {
 				resolve(response.data);
 			})
 			.catch((err) => {
+				throw err;
 				error(500, {
 					message:
 						'an error occurred while fetching identities. Please examine your filters and and sorters and try again.',

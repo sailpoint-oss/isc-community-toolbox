@@ -6,7 +6,6 @@
 	{#each reports as report (report.url)}
 		<a
 			class="card card-hover overflow-hidden"
-			data-sveltekit-preload-data="hover"
 			href={report.url}
 		>
 			<header

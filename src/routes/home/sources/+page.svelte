@@ -97,7 +97,6 @@
 								<a
 									href={`/home/sources/${source.id}`}
 									class="btn btn-sm variant-filled-primary text-sm !text-white"
-									data-sveltekit-preload-data="hover"
 								>
 									Open
 								</a>

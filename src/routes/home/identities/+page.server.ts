@@ -10,52 +10,39 @@ import {
 
 export const load = async ({ locals, url }) => {
 
-	const config = createConfiguration(locals.session!.baseUrl, locals.idnSession!.access_token)
-	const api = new IdentitiesBetaApi(config);
+	try {
 
-	const page = getPage(url);
-	const filters = getFilters(url);
-	const limit = getLimit(url);
-	const sorters = getSorters(url);
+		const config = createConfiguration(locals.session!.baseUrl, locals.idnSession!.access_token)
+		const api = new IdentitiesBetaApi(config);
 
-	const requestParams: IdentitiesBetaApiListIdentitiesRequest = {
-		filters,
-		offset: Number(page) * Number(limit),
-		limit: Number(limit),
-		sorters,
-		count: true
-	};
+		const page = getPage(url);
+		const filters = getFilters(url);
+		const limit = getLimit(url);
+		const sorters = getSorters(url);
 
-	const apiResponse = api.listIdentities(requestParams);
+		const requestParams: IdentitiesBetaApiListIdentitiesRequest = {
+			filters,
+			offset: Number(page) * Number(limit),
+			limit: Number(limit),
+			sorters,
+			count: true
+		};
 
-	const totalCount = new Promise<number>((resolve) => {
-		apiResponse.then((response) => {
-			resolve(response.headers['x-total-count']);
-		});
-	});
+		const apiResponse = await api.listIdentities(requestParams);
+		const totalCount = apiResponse.headers['x-total-count'];
+		const identities: IdentityBeta[] = apiResponse.data;
 
-	const identities = new Promise<IdentityBeta[]>((resolve) => {
-		apiResponse
-			.then((response) => {
-				resolve(response.data);
-			})
-			.catch((err) => {
-				throw err;
-				error(500, {
-					message:
-						'an error occurred while fetching identities. Please examine your filters and and sorters and try again.',
-					context: { params: { page, limit, filters, sorters } },
-					urls: [
-						'https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results'
-					],
-					errData: err.response.data
-				});
-			});
-	});
 
-	return {
-		totalCount,
-		identities,
-		params: { page, limit, filters, sorters }
-	};
+		return {
+			totalCount,
+			identities,
+			params: { page, limit, filters, sorters }
+		};
+	} catch (error) {
+		return {
+			status: 500,
+			error: error
+		}
+	}
+
 };

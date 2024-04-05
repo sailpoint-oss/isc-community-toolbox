@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import axios from 'axios';
 import { generateAuthLink } from '$lib/utils/oauth';
 import { counterList } from './loadinglist';
-import { encrypt } from '$lib/encryption';
+import { encrypt, setSessionDetails } from '$lib/encryption';
 
 export const load: PageServerLoad = async ({ url, cookies, locals }) => {
 	const code = url.searchParams.get('code');
@@ -35,9 +35,7 @@ export const load: PageServerLoad = async ({ url, cookies, locals }) => {
 			}
 		});
 
-	cookies.set('idnSession', encrypt(JSON.stringify(response.data)), {
-		path: '/'
-	});
+	setSessionDetails(cookies, 'idnSession', response.data);
 
 	return { counterList };
 };

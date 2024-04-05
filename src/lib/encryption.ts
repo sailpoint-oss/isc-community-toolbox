@@ -1,4 +1,5 @@
 // crypto module
+import type { Cookies } from '@sveltejs/kit';
 import crypto from 'crypto';
 
 const algorithm = 'aes-256-cbc';
@@ -30,4 +31,25 @@ export function decrypt(encryptedData: string) {
 	} catch {
 		return undefined;
 	}
+}
+
+export function setSessionDetails(cookies: Cookies, name: string, value: any) {
+	if (import.meta.env.MODE === 'development') {
+		cookies.set(name, encrypt(JSON.stringify(value)), {
+			path: '/'
+		});
+	} else {
+		cookies.set(name, encrypt(JSON.stringify(value)), {
+			path: '/'
+		});
+	}
+}
+
+export function getSessionDetails(cookies: Cookies, name: string): string {
+	let sessionDetails;
+		sessionDetails = cookies.get(name);
+		if (sessionDetails) {
+		return decrypt(sessionDetails);
+	}
+	return undefined;
 }

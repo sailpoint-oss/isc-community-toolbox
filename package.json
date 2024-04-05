@@ -1,7 +1,7 @@
 {
 	"name": "isc-community-toolbox-svelte",
 	"description": "A troubleshooting and administration app for Identity Security Cloud",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"private": true,
 	"author": {
 		"name": "Luke Hagar",

@@ -79,7 +79,6 @@
 												<a
 													href={`/home/sources/${source.id}`}
 													class="btn variant-filled-primary text-sm !text-white"
-													data-sveltekit-preload-data="hover"
 												>
 													Open Source
 												</a>

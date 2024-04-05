@@ -1,5 +1,6 @@
 import { createConfiguration } from '$lib/sailpoint/sdk';
 import { getSession, getToken } from '$lib/utils/oauth';
+import { fail } from '@sveltejs/kit';
 import {
 	IdentitiesBetaApi,
 	SearchApi,
@@ -9,7 +10,7 @@ import {
 } from 'sailpoint-api-client';
 
 export const load = async ({ locals, params }) => {
-
+try {
 	const config = createConfiguration(locals.session!.baseUrl, locals.idnSession!.access_token);
 	const identityApi = new IdentitiesBetaApi(config);
 	const searchApi = new SearchApi(config);
@@ -22,9 +23,11 @@ export const load = async ({ locals, params }) => {
 				resolve(response.data);
 			})
 			.catch((err) => {
-				throw err;
+				return fail(500)
 			});
 	});
+
+	console.log(identityData)
 
 	const identityEvents = new Promise<EventDocument[]>((resolve) => {
 		identityResp.then((response) => {
@@ -51,4 +54,11 @@ export const load = async ({ locals, params }) => {
 	});
 
 	return { identityData, identityEvents };
+} catch (error) {
+	return {
+	status: 500,
+	error: error
+	}
+}
+	
 };

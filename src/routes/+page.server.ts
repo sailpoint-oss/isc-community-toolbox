@@ -1,7 +1,7 @@
 import { generateAuthLink, getToken } from '$lib/utils/oauth';
 import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { encrypt } from '$lib/encryption';
+import { encrypt, setSessionDetails } from '$lib/encryption';
 
 export const actions = {
 	default: async ({ cookies, request }) => {
@@ -28,9 +28,7 @@ export const actions = {
 			}
 		}
 
-		cookies.set('session', encrypt(JSON.stringify(session)), {
-			path: '/'
-		});
+		setSessionDetails(cookies, 'session', session);
 		redirect(302, generateAuthLink(tenantUrl.toString()));
 	}
 } satisfies Actions;

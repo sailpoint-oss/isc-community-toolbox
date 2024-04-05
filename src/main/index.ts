@@ -51,6 +51,7 @@ const createWindow = () => {
 			minWidth: 800,
 			webPreferences: {
 				contextIsolation: true,
+				partition: 'persist:isc-console',
 				nodeIntegration: false,
 				spellcheck: false,
 				devTools: true,

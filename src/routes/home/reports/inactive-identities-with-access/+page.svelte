@@ -65,7 +65,6 @@
 										<a
 											href={`/home/identities/${identity.id}`}
 											class="btn btn-sm variant-filled-primary text-sm !text-white"
-											data-sveltekit-preload-data="hover"
 										>
 											Open
 										</a>

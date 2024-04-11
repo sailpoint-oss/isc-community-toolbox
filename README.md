@@ -10,13 +10,13 @@
 
 <!-- [discourse-shield]: https://img.shields.io/discourse/topics?label=Discuss%20This%20Tool&server=https%3A%2F%2Fdeveloper.sailpoint.com%2Fdiscuss -->
 [discourse-shield]: https://img.shields.io/badge/Discuss_This_Tool-0033a1
-[discourse-url]: https://developer.sailpoint.com/discuss/tag/idn-community-toolbox
-[downloads-shield]: https://img.shields.io/github/downloads/sailpoint-oss/idn-community-toolbox/total?label=Downloads
-[issues-shield]:https://img.shields.io/github/issues/sailpoint-oss/idn-community-toolbox?label=Issues
-[release-shield]: https://img.shields.io/github/v/tag/sailpoint-oss/idn-community-toolbox?label=Current%20Release
-[contributor-shield]:https://img.shields.io/github/contributors/sailpoint-oss/idn-community-toolbox?label=Contributors
+[discourse-url]: [https://developer.sailpoint.com/discuss/t/isc-community-toolbox/26588](https://developer.sailpoint.com/discuss/t/isc-community-toolbox/26588)
+[downloads-shield]: https://img.shields.io/github/downloads/sailpoint-oss/isc-community-toolbox/total?label=Downloads
+[issues-shield]:https://img.shields.io/github/issues/sailpoint-oss/isc-community-toolbox?label=Issues
+[release-shield]: https://img.shields.io/github/v/tag/sailpoint-oss/isc-community-toolbox?label=Current%20Release
+[contributor-shield]:https://img.shields.io/github/contributors/sailpoint-oss/isc-community-toolbox?label=Contributors
 
-[product-screenshot]: ./assets/images/idn-community-toolbox-output.png
+[product-screenshot]: ./assets/images/isc-community-toolbox-output.png
 
 <!-- PROJECT LOGO -->
 <br />
@@ -30,9 +30,9 @@
   <p align="center">
     A desktop application to administer and troubleshoot IdentityNow
     <br />
-    <a href="https://github.com/sailpoint-oss/idn-community-toolbox/issues/new?assignees=&labels=bug&projects=&template=bug-report.md&title=%5BBUG%5D+Your+Bug+Report+Here">Report Bug</a>
+    <a href="https://github.com/sailpoint-oss/isc-community-toolbox/issues/new?assignees=&labels=bug&projects=&template=bug-report.md&title=%5BBUG%5D+Your+Bug+Report+Here">Report Bug</a>
     ·
-    <a href="https://github.com/sailpoint-oss/idn-community-toolbox/issues/new?assignees=&labels=enhancement&projects=&template=feature-request.md&title=%5BFEATURE%5D+Your+Feature+Request+Here+">Request Feature</a>
+    <a href="https://github.com/sailpoint-oss/isc-community-toolbox/issues/new?assignees=&labels=enhancement&projects=&template=feature-request.md&title=%5BFEATURE%5D+Your+Feature+Request+Here+">Request Feature</a>
   </p>
 </div>
 
@@ -49,7 +49,7 @@
 ## About the project
 
 <!-- <div align="center">
-<img src="./assets/images/idn-community-toolbox-output.png" width="500" height="" style="text-align:center">
+<img src="./assets/images/isc-community-toolbox-output.png" width="500" height="" style="text-align:center">
 </div> -->
 
 The Identity Security Cloud Community Toolbox is a desktop application you can use to administer and troubleshoot IdentityNow. The Community Toolbox is built using Electron and Sveltekit, and it is developed and maintained by the SailPoint Developer Relations team. 
@@ -65,7 +65,7 @@ To use this tool, you will need to have an IdentityNow tenant.
 
 ### Use a release
 
-There are built versions of this application available for each major OS platform. You can find the latest release [here](https://github.com/sailpoint-oss/idn-community-toolbox/releases/latest). 
+There are built versions of this application available for each major OS platform. You can find the latest release [here](https://github.com/sailpoint-oss/isc-community-toolbox/releases/latest). 
 
 Pick your OS and download the relevant file from the latest release:
 | Platform | File Type |
@@ -137,6 +137,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 ## Discuss
-You can go to the [SailPoint Developer Community Forum](https://developer.sailpoint.com/discuss/tag/idn-community-toolbox) to discuss this tool with other users! 
+You can go to the [SailPoint Developer Community Forum](https://developer.sailpoint.com/discuss/t/isc-community-toolbox/26588) to discuss this tool with other users! 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

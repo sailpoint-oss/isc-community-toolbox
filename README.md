@@ -24,7 +24,7 @@
   <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="https://avatars.githubusercontent.com/u/63106368?s=200&v=4" alt="Logo" width="80" height="80">
   </a>
-
+  <h1> This repository has been deprecated in favor of the <a href="https://developer.sailpoint.com/docs/tools/ui-development-kit"> UI Development Kit </a></h1>
   <h3 align="center">Identity Security Cloud Community Toolbox - README</h3>
 
   <p align="center">
